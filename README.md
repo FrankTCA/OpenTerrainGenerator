@@ -1,32 +1,3 @@
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![MIT License][license-shield]][license-url]
-[![Discord][discord-shield]][discord-url]
-
-<br />
-<div align="center">
-  <a href="https://github.com/PG85/OpenTerrainGenerator">
-    <img src="logo.png" alt="Logo" width="291" height="100">
-  </a>
-
-  <h3 align="center">OpenTerrainGenerator by Team OTG</h3>
-
-  <p align="center">
-    Minecraft's Leading Data-Driven Worldgen Engine
-    <br />
-    <a href="https://openterraingen.fandom.com"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://www.openterraingenerator.org/presets.html">See Our Presets</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bugs</a>
-    ·
-    <a href="https://discord.gg/YY2NECCBYN">Join our Discord</a>
-  </p>
-</div>
-
 ##  OpenTerrainGenerator by Team OTG
 
 OpenTerrainGenerator for MC 1.16.x is under development, alpha builds are available in the dev-releases channel of the OTG Discord.
@@ -81,19 +52,3 @@ OpenTerrainGenerator is a fork of Terrain Control, which is the successor to <a 
 * <a href="https://github.com/Timethor">Timethor - TerrainControl</a>
 * <a href="https://github.com/rutgerkok">Rutgerkok - TerrainControl</a>
 * <a href="https://github.com/bloodmc">BloodMC - TerrainControl</a>
-
-[contributors-shield]: https://img.shields.io/github/contributors/PG85/OpenTerrainGenerator.svg?style=for-the-badge
-[contributors-url]: https://github.com/PG85/OpenTerrainGenerator/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/PG85/OpenTerrainGenerator.svg?style=for-the-badge
-[forks-url]: https://github.com/PG85/OpenTerrainGenerator/network/members
-[stars-shield]: https://img.shields.io/github/stars/PG85/OpenTerrainGenerator.svg?style=for-the-badge
-[stars-url]: https://github.com/PG85/OpenTerrainGenerator/stargazers
-[issues-shield]: https://img.shields.io/github/issues/PG85/OpenTerrainGenerator.svg?style=for-the-badge
-[issues-url]: https://github.com/PG85/OpenTerrainGenerator/issues
-[license-shield]: https://img.shields.io/github/license/PG85/OpenTerrainGenerator.svg?style=for-the-badge
-[license-url]: https://github.com/PG85/OpenTerrainGenerator/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[discord-shield]: https://img.shields.io/discord/307111022257373185?style=for-the-badge
-[discord-url]: https://discord.gg/YY2NECCBYN
-[product-screenshot]: images/screenshot.png
