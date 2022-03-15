@@ -478,21 +478,12 @@ public class OTGNoiseChunkGenerator extends ChunkGenerator
 		
 		try
 		{
-			/*
-			* Because Super asked for an explanation of the code that was added to allow for ImprovedBorderDecoration
-			* to work, here it is.
-			* - List of biome ids is initialized, will be used to ensure biomes are not populated twice.
-			* - Placement is done for the main biome
-			* - If ImprovedBorderDecoration is true, will attempt to perform decoration from any biomes that have not
-			* already been decorated. Thus preventing decoration from happening twice.
-			*
-			* - Frank
-			 */
 			List<Integer> alreadyDecorated = new ArrayList<>();
 			this.chunkDecorator.decorate(this.preset.getFolderName(), chunkBeingDecorated, spigotWorldGenRegion, biomeConfig, getStructureCache(worldSaveFolder));
 			((SpigotBiome)biome).getBiomeBase().a(structureManager, this, worldGenRegion, decorationSeed, sharedseedrandom, blockpos);
 			alreadyDecorated.add(biome.getBiomeConfig().getOTGBiomeId());
 			// Attempt to decorate other biomes if ImprovedBiomeDecoration - Frank
+<<<<<<< HEAD
 			if (getPreset().getWorldConfig().improvedBorderDecoration())
 			{
 				if (!alreadyDecorated.contains(biome1.getBiomeConfig().getOTGBiomeId()))
@@ -518,6 +509,24 @@ public class OTGNoiseChunkGenerator extends ChunkGenerator
 					this.chunkDecorator.decorate(this.preset.getFolderName(), chunkBeingDecorated, spigotWorldGenRegion, biome4.getBiomeConfig(), getStructureCache(worldSaveFolder));
 					((SpigotBiome) biome4).getBiomeBase().a(structureManager, this, worldGenRegion, decorationSeed, sharedseedrandom, blockpos);
 				}
+=======
+			if (getPreset().getWorldConfig().improvedBorderDecoration()) {
+				if (!alreadyDecorated.contains(biome1.getBiomeConfig().getOTGBiomeId()))
+					this.chunkDecorator.decorate(this.preset.getFolderName(), chunkBeingDecorated, spigotWorldGenRegion, biome1.getBiomeConfig(), getStructureCache(worldSaveFolder));
+				if (!alreadyDecorated.contains(biome1.getBiomeConfig().getOTGBiomeId())) ((SpigotBiome)biome1).getBiomeBase().a(structureManager, this, worldGenRegion, decorationSeed, sharedseedrandom, blockpos);
+				alreadyDecorated.add(biome1.getBiomeConfig().getOTGBiomeId());
+				if (!alreadyDecorated.contains(biome2.getBiomeConfig().getOTGBiomeId()))
+					this.chunkDecorator.decorate(this.preset.getFolderName(), chunkBeingDecorated, spigotWorldGenRegion, biome2.getBiomeConfig(), getStructureCache(worldSaveFolder));
+				if (!alreadyDecorated.contains(biome2.getBiomeConfig().getOTGBiomeId())) ((SpigotBiome)biome2).getBiomeBase().a(structureManager, this, worldGenRegion, decorationSeed, sharedseedrandom, blockpos);
+				alreadyDecorated.add(biome2.getBiomeConfig().getOTGBiomeId());
+				if (!alreadyDecorated.contains(biome3.getBiomeConfig().getOTGBiomeId()))
+					this.chunkDecorator.decorate(this.preset.getFolderName(), chunkBeingDecorated, spigotWorldGenRegion, biome3.getBiomeConfig(), getStructureCache(worldSaveFolder));
+				if (!alreadyDecorated.contains(biome3.getBiomeConfig().getOTGBiomeId())) ((SpigotBiome)biome3).getBiomeBase().a(structureManager, this, worldGenRegion, decorationSeed, sharedseedrandom, blockpos);
+				alreadyDecorated.add(biome3.getBiomeConfig().getOTGBiomeId());
+				if (!alreadyDecorated.contains(biome4.getBiomeConfig().getOTGBiomeId()))
+					this.chunkDecorator.decorate(this.preset.getFolderName(), chunkBeingDecorated, spigotWorldGenRegion, biome4.getBiomeConfig(), getStructureCache(worldSaveFolder));
+				if (!alreadyDecorated.contains(biome4.getBiomeConfig().getOTGBiomeId())) ((SpigotBiome)biome4).getBiomeBase().a(structureManager, this, worldGenRegion, decorationSeed, sharedseedrandom, blockpos);
+>>>>>>> parent of 7443a36bd (Readability + explanations)
 			}
 			this.chunkDecorator.doSnowAndIce(spigotWorldGenRegion, chunkBeingDecorated);
 		}
