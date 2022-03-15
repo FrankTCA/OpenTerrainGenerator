@@ -180,7 +180,7 @@ public class ExportCommand extends BaseCommand
 
 			Path objectPath = ObjectUtils.getObjectFolderPath(isGlobal ? null : preset.getPresetFolder());
 
-			if (!overwrite && new File(objectPath.toFile(), objectName + ".bo3").exists())
+			if (!overwrite)
 			{
 				if (new File(objectPath.toFile(), objectName + "." + type.getType()).exists())
 				{
