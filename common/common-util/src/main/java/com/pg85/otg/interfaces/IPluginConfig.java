@@ -26,6 +26,4 @@ public interface IPluginConfig
 	public boolean logBiomeRegistry();
 	public boolean getDecorationEnabled();
 	public boolean logMobs();
-	public String logPresets();	
-	public ConfigMode getSettingsMode();
 }

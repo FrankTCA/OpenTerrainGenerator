@@ -176,7 +176,6 @@ public abstract class LocalPresetLoader
 		// Update settings dynamically, these changes don't get written back to the file
 		processSettings(worldConfig, biomeConfigs);
 
-		if(logger.getLogCategoryEnabled(LogCategory.CONFIGS) && logger.canLogForPreset(presetDir.getFileName().toString()))
 		{
 			logger.log(
 				LogLevel.INFO,

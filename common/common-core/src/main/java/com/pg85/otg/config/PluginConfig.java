@@ -45,7 +45,6 @@ public final class PluginConfig extends PluginConfigBase
 		this.logPerformance = reader.getSetting(PluginConfigStandardValues.LOG_PERFORMANCE, logger);		
 		this.logDecoration = reader.getSetting(PluginConfigStandardValues.LOG_DECORATION, logger);
 		this.logMobs = reader.getSetting(PluginConfigStandardValues.LOG_MOBS, logger);
-		this.logPresets = reader.getSetting(PluginConfigStandardValues.LOG_PRESETS, logger);
 		this.decorationEnabled = reader.getSetting(PluginConfigStandardValues.DECORATION_ENABLED, logger);
 		this.developerMode = reader.getSetting(PluginConfigStandardValues.DEVELOPER_MODE, logger);
 		this.workerThreads = reader.getSetting(PluginConfigStandardValues.WORKER_THREADS, logger);
@@ -111,6 +110,7 @@ public final class PluginConfig extends PluginConfigBase
 			"Logs information about mob config errors and spawning.",
 			"Defaults to: false"
 		);
+<<<<<<< HEAD
 
 		writer.putSetting(PluginConfigStandardValues.LOG_PRESETS, this.logPresets,
 			"Set the name of a preset or \"all\" to log warnings and errors",
@@ -118,6 +118,9 @@ public final class PluginConfig extends PluginConfigBase
 			"Default to: all"
 		);
 
+=======
+		
+>>>>>>> parent of 4ae64008d (Added LogPresets setting in otg.ini)
 		writer.putSetting(PluginConfigStandardValues.LOG_PERFORMANCE, this.logPerformance,
 			"Logs information about any feature that is taking more than 50 milliseconds.",
 			"Includes: base terrain gen, decoration, resources, bo4 plotting, bo3/bo4 spawning.",

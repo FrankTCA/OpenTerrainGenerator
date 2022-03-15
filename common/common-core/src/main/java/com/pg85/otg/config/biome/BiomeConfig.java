@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.*;
 
-import com.pg85.otg.OTG;
 import com.pg85.otg.config.ConfigFunction;
 import com.pg85.otg.config.biome.BiomeConfigFinder.BiomeConfigStub;
 import com.pg85.otg.config.io.IConfigFunctionProvider;
@@ -421,7 +420,7 @@ public class BiomeConfig extends BiomeConfigBase
 
 	private void readResourceSettings(SettingsMap settings, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader, String presetFolderName)
 	{
-		List<ConfigFunction<IBiomeConfig>> resources = new ArrayList<>(settings.getConfigFunctions(this, biomeResourcesManager, logger, materialReader, presetFolderName, OTG.getEngine().getPluginConfig()));
+		List<ConfigFunction<IBiomeConfig>> resources = new ArrayList<>(settings.getConfigFunctions(this, biomeResourcesManager, logger, materialReader));
 		for (ConfigFunction<IBiomeConfig> res : resources)
 		{
 			if (res != null)
@@ -441,7 +440,6 @@ public class BiomeConfig extends BiomeConfigBase
 								this.settings.customSaplingGrowers.put(sapling.saplingMaterial, sapling);
 							}
 						} catch (NullPointerException e) {
-							if (logger.getLogCategoryEnabled(LogCategory.CONFIGS) && logger.canLogForPreset(presetFolderName))
 							{
 								logger.log(LogLevel.ERROR, LogCategory.CONFIGS, "Unrecognized sapling type in biome " + this.getName());
 							}
@@ -453,7 +451,7 @@ public class BiomeConfig extends BiomeConfigBase
 			}
 		}
 
-		resources = new ArrayList<>(settings.getConfigFunctions(this, biomeResourcesManager, logger, materialReader, presetFolderName, OTG.getEngine().getPluginConfig()));
+		resources = new ArrayList<>(settings.getConfigFunctions(this, biomeResourcesManager, logger, materialReader));
 		for (ConfigFunction<IBiomeConfig> res : resources)
 		{
 			if (res != null)
@@ -498,9 +496,6 @@ public class BiomeConfig extends BiomeConfigBase
 			);
 		}
 		
-=======
-	
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		if(!isTemplateBiome)
 		{
 			writer.putSetting(BiomeStandardValues.BIOME_DICT_TAGS, this.settings.biomeDictTags,
