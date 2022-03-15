@@ -570,7 +570,8 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		try
 		{
 			/*
-			 * Here's how the code works that was added for the ImprovedBorderDecoration code.
+			 * Because Super asked for an explanation of the code that was added to allow for ImprovedBorderDecoration
+			 * to work, here it is.
 			 * - List of biome ids is initialized, will be used to ensure biomes are not populated twice.
 			 * - Placement is done for the main biome
 			 * - If ImprovedBorderDecoration is true, will attempt to perform decoration from any biomes that have not
