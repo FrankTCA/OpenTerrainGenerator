@@ -97,12 +97,6 @@ public class SpigotLegacyMaterials
 			case "red_sandstone_stairs":
 				return Blocks.RED_SANDSTONE_STAIRS.getBlockData().set(BlockStairs.FACING, EnumDirection.EAST);
 			case "purpur_stairs":
-				return Blocks.PURPUR_STAIRS.getBlockData().set(BlockStairs.FACING, EnumDirection.EAST);
-			case "wooden_button":
-			case "wood_button":
-				return Blocks.OAK_BUTTON.getBlockData().set(BlockWoodButton.FACING, EnumDirection.NORTH);
-			case "waterlily":
-				return Blocks.LILY_PAD.getBlockData();
 			case "quartz_ore":
 				return Blocks.NETHER_QUARTZ_ORE.getBlockData();				
 			case "yellow_flower":
