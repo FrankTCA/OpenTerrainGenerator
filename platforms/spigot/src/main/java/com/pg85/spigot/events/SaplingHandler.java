@@ -1,4 +1,4 @@
-package com.pg85.otg.spigot.events;
+package com.pg85.spigot.events;
 
 import java.nio.file.Path;
 import java.util.Random;
