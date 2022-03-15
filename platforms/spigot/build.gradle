@@ -30,12 +30,12 @@ dependencies {
     compile project(':common:common-generator')
     compile project(':common:common-core')
     
-    compile ('com.sk89q.worldedit:worldedit-core:7.2.9') {
+    compile ('com.sk89q.worldedit:worldedit-core:7.2.0') {
 		exclude group: 'org.yaml'
 	}
 	
 	// We may not need this, remove if so
-	compile 'com.sk89q.worldedit:worldedit-bukkit:7.2.9'
+	compile 'com.sk89q.worldedit:worldedit-bukkit:7.2.0'
 }
 
 // Replace text in plugin.yml
