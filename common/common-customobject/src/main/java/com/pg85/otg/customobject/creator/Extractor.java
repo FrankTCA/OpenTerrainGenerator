@@ -34,10 +34,8 @@ public class Extractor
 					LocalMaterialData materialData = localWorld.getMaterial(x, y, z);
 					boolean stop = false;
 					for (LocalMaterialData exclude : excludes) {
-						if (exclude.matches(materialData)) {
+						if (exclude.matches(materialData))
 							stop = true;
-							break;
-						}
 					}
 
 					if (materialData == null
