@@ -215,41 +215,6 @@ abstract class WorldConfigBase extends ConfigFile implements IWorldConfig
 	protected String effectsLocation;
 	protected float ambientLight;
 
-	// Game rules
-	
-	protected boolean overrideGameRules;
-	protected boolean doFireTick;
-	protected boolean mobGriefing;
-	protected boolean keepInventory;
-	protected boolean doMobSpawning;
-	protected boolean doMobLoot;
-	protected boolean doTileDrops;
-	protected boolean doEntityDrops;
-	protected boolean commandBlockOutput;
-	protected boolean naturalRegeneration;
-	protected boolean doDaylightCycle;
-	protected boolean logAdminCommands;
-	protected boolean showDeathMessages;
-	protected int randomTickSpeed;
-	protected boolean sendCommandFeedback;
-	protected boolean spectatorsGenerateChunks;
-	protected int spawnRadius;
-	protected boolean disableElytraMovementCheck;
-	protected int maxEntityCramming;
-	protected boolean doWeatherCycle;
-	protected boolean doLimitedCrafting;
-	protected int maxCommandChainLength;
-	protected boolean announceAdvancements;
-	protected boolean disableRaids;
-	protected boolean doInsomnia;
-	protected boolean drowningDamage;
-	protected boolean fallDamage;
-	protected boolean fireDamage;
-	protected boolean doPatrolSpawning;
-	protected boolean doTraderSpawning;
-	protected boolean forgiveDeadPlayers;
-	protected boolean universalAnger;
-	
 	// Portals
 
 	protected ArrayList<LocalMaterialData> portalBlocks;
@@ -257,6 +222,7 @@ abstract class WorldConfigBase extends ConfigFile implements IWorldConfig
 	protected String portalMob;
 	protected String portalIgnitionSource;
 
+<<<<<<< HEAD
 	// Spawn point
 	
 	protected boolean fixedSpawnPoint;
@@ -265,6 +231,8 @@ abstract class WorldConfigBase extends ConfigFile implements IWorldConfig
 	protected int spawnPointZ;
 	protected float spawnPointAngle;
 
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	protected WorldConfigBase(String configName)
 	{
 		super(configName);
@@ -1207,6 +1175,7 @@ abstract class WorldConfigBase extends ConfigFile implements IWorldConfig
 	{
 		return this.portalIgnitionSource;
 	}
+<<<<<<< HEAD
 	
 	// Spawn point
 	
@@ -1439,4 +1408,6 @@ abstract class WorldConfigBase extends ConfigFile implements IWorldConfig
 	{
 		return this.universalAnger;
 	}	
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 }

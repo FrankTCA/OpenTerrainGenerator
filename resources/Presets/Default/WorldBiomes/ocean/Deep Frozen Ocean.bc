@@ -5,11 +5,22 @@
 # +-----------------------------------------------------------------+ #
 #######################################################################
 
-TemplateForBiome: false
+ReplaceToBiomeName: minecraft:deep_frozen_ocean
 
-BiomeDictTags: COLD, OCEAN, SNOWY, OVERWORLD
+BiomeDictId: COLD, OCEAN, SNOWY
 
 BiomeCategory: ocean
+
+
+#######################################################################
+# +-----------------------------------------------------------------+ #
+# |                        Biome Inheritance                        | #
+# +-----------------------------------------------------------------+ #
+#######################################################################
+
+BiomeExtends: 
+
+ResourceInheritance: true
 
 
 #######################################################################
@@ -29,19 +40,17 @@ BiomeColor: #404090
 # |                           Isle biomes                           | #
 #######################################################################
 
-IsleInBiome: Ocean
+IsleInBiome: Frozen Ocean
 
 BiomeSizeWhenIsle: 4
 
-BiomeRarityWhenIsle: 97
+BiomeRarityWhenIsle: 100
 
 #################
 # Border biomes #
 #################
 
 BiomeIsBorder: 
-
-OnlyBorderNear: 
 
 NotBorderNear: 
 
@@ -100,9 +109,7 @@ SurfaceBlock: minecraft:gravel
 
 GroundBlock: minecraft:stone
 
-UnderWaterSurfaceBlock: minecraft:stone
-
-SurfaceAndGroundControl: Iceberg 
+SurfaceAndGroundControl: Iceberg
 
 ReplacedBlocks: None
 
@@ -117,15 +124,11 @@ WaterLevelMax: 63
 
 WaterLevelMin: 0
 
-WaterBlock: minecraft:water
+WaterBlock: minecraft:water[level=0]
 
 IceBlock: minecraft:ice
 
-PackedIceBlock: minecraft:packed_ice
-
-SnowBlock: minecraft:snow_block
-
-CooledLavaBlock: minecraft:lava
+CooledLavaBlock: minecraft:lava[level=0]
 
 
 #######################################################################
@@ -136,29 +139,19 @@ CooledLavaBlock: minecraft:lava
 
 BiomeTemperature: 0.0
 
-UseFrozenOceanTemperature: true
-
 BiomeWetness: 0.5
 
 SkyColor: #7BA5FF
 
 WaterColor: #FFFFFF
 
-WaterColorControl: 
-
 GrassColor: #FFFFFF
-
-GrassColorControl: 
 
 GrassColorModifier: None
 
 FoliageColor: #FFFFFF
 
-FoliageColorControl: 
-
 FogColor: #000000
-
-FogDensity: 0.0
 
 WaterFogColor: #000000
 
@@ -203,25 +196,26 @@ Ore(minecraft:andesite,33,10,100.0,0,79,minecraft:stone)
 Ore(minecraft:coal_ore,17,20,100.0,0,127,minecraft:stone)
 Ore(minecraft:iron_ore,9,20,100.0,0,63,minecraft:stone)
 Ore(minecraft:gold_ore,9,2,100.0,0,31,minecraft:stone)
-Ore(minecraft:redstone_ore,8,8,100.0,0,15,minecraft:stone)
+Ore(minecraft:redstone_ore[lit=false],8,8,100.0,0,15,minecraft:stone)
 Ore(minecraft:diamond_ore,8,1,100.0,0,15,minecraft:stone)
 Ore(minecraft:lapis_ore,7,1,100.0,0,15,minecraft:stone)
 Registry(minecraft:iceberg_packed,VEGETAL_DECORATION)
 Registry(minecraft:iceberg_blue,VEGETAL_DECORATION)
 UnderGroundLake(25,60,2,5.0,0,49)
-Liquid(minecraft:water,20,100.0,8,128,minecraft:stone)
-Liquid(minecraft:lava,10,100.0,8,128,minecraft:stone)
-SmallLake(minecraft:water,4,7.0,8,119)
-SmallLake(minecraft:lava,2,1.0,8,119)
-SmallLake(minecraft:lava,2,8.0,6,50)
+Liquid(minecraft:water[level=0],20,100.0,8,128,minecraft:stone)
+Liquid(minecraft:lava[level=0],10,100.0,8,128,minecraft:stone)
+SmallLake(minecraft:water[level=0],4,7.0,8,119)
+SmallLake(minecraft:lava[level=0],2,1.0,8,119)
+SmallLake(minecraft:lava[level=0],2,8.0,6,50)
 UnderWaterOre(minecraft:sand,7,3,100.0,minecraft:gravel)
 UnderWaterOre(minecraft:clay,4,1,100.0,minecraft:gravel)
 UnderWaterOre(minecraft:dirt,6,1,100.0,minecraft:gravel)
-Dungeon(8.0,10,100)
+Dungeon(8,100.0,0,128)
 Tree(1,BigTree,1,Tree,9)
-Grass(Tallgrass,NotGrouped,10,100.0,minecraft:grass_block,minecraft:dirt)
-Plant(Dandelion,2,100.0,0,128,minecraft:grass_block,minecraft:dirt)
-Plant(minecraft:pumpkin,1,3.0,0,128,minecraft:grass_block)
+Grass(Tallgrass,NotGrouped,10,100.0,minecraft:grass_block[snowy=false],minecraft:dirt)
+Plant(Dandelion,2,100.0,0,128,minecraft:grass_block[snowy=false],minecraft:dirt)
+Plant(minecraft:pumpkin,1,3.0,0,128,minecraft:grass_block[snowy=false])
+CustomObject(UseWorld)
 
 #######################################################################
 # +-----------------------------------------------------------------+ #
@@ -260,7 +254,7 @@ BuriedTreasureProbability: 0.01
 
 ShipWreckEnabled: true
 
-ShipWreckBeachedEnabled: false
+ShipWreckBeachedEnabled: true
 
 PillagerOutpostEnabled: false
 
@@ -274,7 +268,7 @@ NetherFossilEnabled: false
 
 EndCityEnabled: false
 
-RuinedPortalType: ocean
+RuinedPortalType: disabled
 
 OceanRuinsType: cold
 

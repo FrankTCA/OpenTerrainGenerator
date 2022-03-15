@@ -57,7 +57,7 @@ class BiomeGroupLayer implements ParentedLayer
 			if(biomeGroup != null)
 			{
 				// Encode the biome group id into the sample for later use
-				return sample | (biomeGroup.id << BiomeLayers.GROUP_SHIFT);
+				return sample | (biomeGroup.id << BiomeLayers.GROUP_SHIFT) | 0;
 			}
 		}
 

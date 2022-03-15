@@ -158,17 +158,10 @@ public class ExportCommand extends BaseCommand
 			source.sendMessage("Cannot export BO2 objects");
 			return true;
 		}
-		Region region = null;
-		if (OTG.getEngine().getModLoadedChecker().isModLoaded("worldedit"))
-		{
-			region = WorldEditUtil.getRegionFromPlayer(source);
-		}
-		if (region == null) {
-			region = RegionCommand.playerSelectionMap.get(source);
-		}
+		Region region = RegionCommand.playerSelectionMap.get(source);
 		if (region == null || region.getMin() == null || region.getMax() == null)
 		{
-			source.sendMessage("Please define a region with /otg region mark, or worldedit");
+			source.sendMessage("Please mark two corners with /otg region mark");
 			return true;
 		}
 		if (ObjectUtils.isOutsideBounds(region, type))

@@ -102,6 +102,7 @@ public class ForgeBiome implements IBiome
 		// TODO: What if there's no grass around spawn?
 		biomeGenerationSettingsBuilder.surfaceBuilder(ConfiguredSurfaceBuilders.GRASS);
 
+<<<<<<< HEAD
 		// Register default carvers, we won't actually use these since we have
 		// our own carvers, but if they're replaced we'll know there are modded carvers.
 		DefaultBiomeFeatures.addDefaultCarvers(biomeGenerationSettingsBuilder);
@@ -125,6 +126,12 @@ public class ForgeBiome implements IBiome
 				}				
 			}
 		}
+=======
+		// * Carvers are handled by OTG
+		
+		// Default structures
+		addVanillaStructures(biomeGenerationSettingsBuilder, worldConfig, biomeConfig);	
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 
 		// Default structures
 		addVanillaStructures(biomeGenerationSettingsBuilder, worldConfig, biomeConfig);

@@ -1,28 +1,20 @@
 package com.pg85.otg.forge.event;
 
-import com.pg85.otg.config.dimensions.DimensionConfig;
 import com.pg85.otg.constants.Constants;
 import com.pg85.otg.forge.gen.OTGNoiseChunkGenerator;
-import com.pg85.otg.interfaces.IWorldConfig;
 
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Dimension;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.world.SleepFinishedTimeEvent;
-import net.minecraftforge.event.world.WorldEvent.CreateSpawnPosition;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-// Used for:
-// - Allowing sleeping in OTG dimensions.
-// - Setting overworld spawn point from WorldConfig.
-// - Applying GameRules from dimensionconfig or worldconfig. 
+//Only used to allow sleeping in OTG dimensions atm
 @EventBusSubscriber(modid = Constants.MOD_ID_SHORT)
 public class WorldHandler
 {
+<<<<<<< HEAD
 	@SubscribeEvent
 	public static void onSetSpawn(CreateSpawnPosition event)
 	{		
@@ -118,6 +110,8 @@ public class WorldHandler
 		}
 	}
 
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	// Beds don't work in non-overworld dimensions since DerivedWorldInfo doesn't implement 
 	// setDayTime (time is shared with the overworld, so can't tick more than one dim).
 	// For non-overworld OTG dims, when players finish sleeping apply the new time to the 

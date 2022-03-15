@@ -5,11 +5,22 @@
 # +-----------------------------------------------------------------+ #
 #######################################################################
 
-TemplateForBiome: false
+ReplaceToBiomeName: minecraft:bamboo_jungle
 
-BiomeDictTags: HOT, WET, DENSE, JUNGLE, OVERWORLD
+BiomeDictId: HOT, WET, DENSE, JUNGLE
 
 BiomeCategory: jungle
+
+
+#######################################################################
+# +-----------------------------------------------------------------+ #
+# |                        Biome Inheritance                        | #
+# +-----------------------------------------------------------------+ #
+#######################################################################
+
+BiomeExtends: 
+
+ResourceInheritance: true
 
 
 #######################################################################
@@ -40,8 +51,6 @@ BiomeRarityWhenIsle: 97
 #################
 
 BiomeIsBorder: 
-
-OnlyBorderNear: 
 
 NotBorderNear: 
 
@@ -96,11 +105,9 @@ RiverBiome: River
 
 StoneBlock: minecraft:stone
 
-SurfaceBlock: minecraft:grass_block
+SurfaceBlock: minecraft:grass_block[snowy=false]
 
 GroundBlock: minecraft:dirt
-
-UnderWaterSurfaceBlock: minecraft:dirt
 
 SurfaceAndGroundControl: 
 
@@ -117,15 +124,11 @@ WaterLevelMax: 63
 
 WaterLevelMin: 0
 
-WaterBlock: minecraft:water
+WaterBlock: minecraft:water[level=0]
 
 IceBlock: minecraft:ice
 
-PackedIceBlock: minecraft:packed_ice
-
-SnowBlock: minecraft:snow_block
-
-CooledLavaBlock: minecraft:lava
+CooledLavaBlock: minecraft:lava[level=0]
 
 
 #######################################################################
@@ -136,29 +139,19 @@ CooledLavaBlock: minecraft:lava
 
 BiomeTemperature: 0.95
 
-UseFrozenOceanTemperature: false
-
 BiomeWetness: 0.9
 
 SkyColor: #7BA5FF
 
 WaterColor: #FFFFFF
 
-WaterColorControl: 
-
 GrassColor: #FFFFFF
-
-GrassColorControl: 
 
 GrassColorModifier: None
 
 FoliageColor: #FFFFFF
 
-FoliageColorControl: 
-
 FogColor: #000000
-
-FogDensity: 0.0
 
 WaterFogColor: #000000
 
@@ -203,28 +196,29 @@ Ore(minecraft:andesite,33,10,100.0,0,79,minecraft:stone)
 Ore(minecraft:coal_ore,17,20,100.0,0,127,minecraft:stone)
 Ore(minecraft:iron_ore,9,20,100.0,0,63,minecraft:stone)
 Ore(minecraft:gold_ore,9,2,100.0,0,31,minecraft:stone)
-Ore(minecraft:redstone_ore,8,8,100.0,0,15,minecraft:stone)
+Ore(minecraft:redstone_ore[lit=false],8,8,100.0,0,15,minecraft:stone)
 Ore(minecraft:diamond_ore,8,1,100.0,0,15,minecraft:stone)
 Ore(minecraft:lapis_ore,7,1,100.0,0,15,minecraft:stone)
 Registry(minecraft:bamboo,VEGETAL_DECORATION)
 Registry(minecraft:bamboo_vegetation,VEGETAL_DECORATION)
 UnderGroundLake(25,60,2,5.0,0,49)
-Liquid(minecraft:water,20,100.0,8,128,minecraft:stone)
-Liquid(minecraft:lava,10,100.0,8,128,minecraft:stone)
-SmallLake(minecraft:water,4,7.0,8,119)
-SmallLake(minecraft:lava,2,1.0,8,119)
-SmallLake(minecraft:lava,2,8.0,6,50)
-UnderWaterOre(minecraft:sand,7,3,100.0,minecraft:dirt,minecraft:grass_block)
+Liquid(minecraft:water[level=0],20,100.0,8,128,minecraft:stone)
+Liquid(minecraft:lava[level=0],10,100.0,8,128,minecraft:stone)
+SmallLake(minecraft:water[level=0],4,7.0,8,119)
+SmallLake(minecraft:lava[level=0],2,1.0,8,119)
+SmallLake(minecraft:lava[level=0],2,8.0,6,50)
+UnderWaterOre(minecraft:sand,7,3,100.0,minecraft:dirt,minecraft:grass_block[snowy=false])
 UnderWaterOre(minecraft:clay,4,1,100.0,minecraft:dirt,minecraft:clay)
-UnderWaterOre(minecraft:gravel,6,1,100.0,minecraft:dirt,minecraft:grass_block)
-Dungeon(8.0,10,100)
+UnderWaterOre(minecraft:gravel,6,1,100.0,minecraft:dirt,minecraft:grass_block[snowy=false])
+Dungeon(8,100.0,0,128)
 Tree(50,BigTree,10,GroundBush,50,JungleTree,35,CocoaTree,100)
-Grass(Fern,NotGrouped,20,100.0,minecraft:grass_block,minecraft:dirt)
-Grass(Tallgrass,NotGrouped,60,100.0,minecraft:grass_block,minecraft:dirt)
-Plant(minecraft:melon,1,100.0,0,128,minecraft:grass_block,minecraft:dirt)
-Plant(Poppy,4,100.0,0,128,minecraft:grass_block,minecraft:dirt)
-Plant(Dandelion,4,100.0,0,128,minecraft:grass_block,minecraft:dirt)
-Plant(minecraft:pumpkin,1,3.0,0,128,minecraft:grass_block)
+Grass(Fern,NotGrouped,20,100.0,minecraft:grass_block[snowy=false],minecraft:dirt)
+Grass(Tallgrass,NotGrouped,60,100.0,minecraft:grass_block[snowy=false],minecraft:dirt)
+Plant(minecraft:melon,1,100.0,0,128,minecraft:grass_block[snowy=false],minecraft:dirt)
+Plant(Poppy,4,100.0,0,128,minecraft:grass_block[snowy=false],minecraft:dirt)
+Plant(Dandelion,4,100.0,0,128,minecraft:grass_block[snowy=false],minecraft:dirt)
+Plant(minecraft:pumpkin,1,3.0,0,128,minecraft:grass_block[snowy=false])
+CustomObject(UseWorld)
 
 #######################################################################
 # +-----------------------------------------------------------------+ #
@@ -277,7 +271,7 @@ NetherFossilEnabled: false
 
 EndCityEnabled: false
 
-RuinedPortalType: jungle
+RuinedPortalType: disabled
 
 OceanRuinsType: disabled
 

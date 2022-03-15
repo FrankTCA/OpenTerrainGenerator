@@ -199,8 +199,6 @@ abstract class BiomeConfigBase extends ConfigFile implements IBiomeConfig
 		protected List<WeightedMobSpawnGroup> spawnWaterAmbientCreaturesMerged = new ArrayList<WeightedMobSpawnGroup>();
 		protected List<WeightedMobSpawnGroup> spawnMiscCreaturesMerged = new ArrayList<WeightedMobSpawnGroup>();	
 		
-		protected String inheritMobsBiomeName;
-		
 		// Resources
 		
 		protected List<ConfigFunction<IBiomeConfig>> resourceQueue = new ArrayList<ConfigFunction<IBiomeConfig>>();
@@ -821,12 +819,6 @@ abstract class BiomeConfigBase extends ConfigFile implements IBiomeConfig
 	public boolean getOceanMonumentsEnabled()
 	{
 		return this.settings.oceanMonumentsEnabled;
-	}
-	
-	@Override
-	public String getInheritMobsBiomeName()
-	{
-		return this.settings.inheritMobsBiomeName;
 	}
 	
 	@Override

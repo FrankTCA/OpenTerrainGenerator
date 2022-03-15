@@ -33,8 +33,14 @@ class LandLayer implements ParentedLayer
 	public int sample(LayerSampleContext<?> context, ILayerSampler parent, int x, int z)
 	{
 		int sample = parent.sample(x, z);
+		// If we're on the center sample return land to try and make sure that the player doesn't spawn in the ocean.
+		if (x == 0 && z == 0)
+		{
+			return sample | LAND_BIT;
+		}
 
 		// Set land based on the rarity
+<<<<<<< HEAD
 		boolean result;
 		if (oldLandRarity) {
 			// Old land rarity - 100 is all land, 99 is 50% land, etc.
@@ -54,6 +60,10 @@ class LandLayer implements ParentedLayer
 			{
 				return sample | LAND_BIT;
 			}
+=======
+		if (context.nextInt(this.rarity) == 0) {
+			return sample | LAND_BIT;
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		}
 
 		return sample;

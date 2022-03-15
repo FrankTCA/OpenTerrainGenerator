@@ -162,7 +162,11 @@ public class CustomObjectCollection
 	{
 		synchronized(this.indexingFilesLock)
 		{
+<<<<<<< HEAD
 			if (this.customObjectFilesGlobalObjects != null && !this.customObjectFilesGlobalObjects.containsKey(name.toLowerCase()))
+=======
+			if (!customObjectFilesGlobalObjects.containsKey(name.toLowerCase(Locale.ROOT)))
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 			{
 				this.customObjectFilesGlobalObjects.put(name.toLowerCase(), file);
 			}

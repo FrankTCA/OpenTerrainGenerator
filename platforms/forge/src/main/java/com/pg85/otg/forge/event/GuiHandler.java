@@ -23,7 +23,7 @@ public class GuiHandler
 			if(modPackConfig != null)
 			{
 				CreateWorldScreen screen = (CreateWorldScreen)event.getGui();
-				event.setGui(ModpackCreateWorldScreen.create(screen.lastScreen));
+				event.setGui(new ModpackCreateWorldScreen(null, screen.dataPacks, screen.worldGenSettingsComponent));
 			}
 		}
 	}

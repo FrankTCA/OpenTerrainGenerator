@@ -1,8 +1,15 @@
 package com.pg85.otg.forge.gen;
 
 import java.nio.file.Path;
+<<<<<<< HEAD
 import java.util.*;
 import java.util.Map.Entry;
+=======
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.List;
+import java.util.Random;
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -55,7 +62,11 @@ import net.minecraft.util.math.SectionPos;
 import net.minecraft.world.Blockreader;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+<<<<<<< HEAD
 import net.minecraft.world.biome.BiomeGenerationSettings;
+=======
+import net.minecraft.world.biome.Biome;
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -65,7 +76,10 @@ import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.Heightmap.Type;
+<<<<<<< HEAD
 import net.minecraft.world.gen.carver.ConfiguredCarver;
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.jigsaw.JigsawJunction;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
@@ -129,6 +143,8 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	private String portalColor;
 	private String portalMob;
 	private String portalIgnitionSource;
+	private boolean cavesEnabled;
+	private boolean ravinesEnabled;
 
 	public OTGNoiseChunkGenerator(BiomeProvider biomeProvider, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
 	{
@@ -300,6 +316,125 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		return this.preset;
 	}
 
+<<<<<<< HEAD
+=======
+	// TODO: Modpack config specific, move this?
+
+	public boolean getCavesEnabled()
+	{
+		processDimensionConfigData();
+		return this.cavesEnabled;
+	}
+
+	public boolean getRavinesEnabled()
+	{
+		processDimensionConfigData();
+		return this.ravinesEnabled;
+	}
+
+	public String getPortalColor()
+	{
+		processDimensionConfigData();
+		return this.portalColor;
+	}
+
+	public String getPortalMob()
+	{
+		processDimensionConfigData();
+		return this.portalMob;
+	}
+
+	public String getPortalIgnitionSource()
+	{
+		processDimensionConfigData();
+		return this.portalIgnitionSource;
+	}
+		
+	public List<LocalMaterialData> getPortalBlocks()
+	{
+		processDimensionConfigData();
+		return this.portalBlocks;
+	}
+
+	private void processDimensionConfigData()
+	{
+		if(!this.portalDataProcessed)
+		{
+			this.portalDataProcessed = true;
+			if(this.dimConfig != null)
+			{
+				if(this.dimConfig.Overworld != null && this.dimConfig.Overworld.PresetFolderName != null && this.preset.getFolderName().equals(this.dimConfig.Overworld.PresetFolderName))
+				{
+					this.cavesEnabled = this.dimConfig.Overworld.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
+					this.ravinesEnabled = this.dimConfig.Overworld.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
+				}
+				else if(this.dimConfig.Nether != null && this.dimConfig.Nether.PresetFolderName != null && this.preset.getFolderName().equals(this.dimConfig.Nether.PresetFolderName))
+				{
+					this.cavesEnabled = this.dimConfig.Nether.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
+					this.ravinesEnabled = this.dimConfig.Nether.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
+				}
+				else if(this.dimConfig.End != null && this.dimConfig.End.PresetFolderName != null && this.preset.getFolderName().equals(this.dimConfig.End.PresetFolderName))
+				{
+					this.cavesEnabled = this.dimConfig.End.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
+					this.ravinesEnabled = this.dimConfig.End.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
+				} else {
+					IMaterialReader materialReader = OTG.getEngine().getPresetLoader().getMaterialReader(this.preset.getFolderName());
+					for(OTGDimension dim : this.dimConfig.Dimensions)
+					{
+						if(dim.PresetFolderName != null && this.preset.getFolderName().equals(dim.PresetFolderName))
+						{
+							if(dim.PortalBlocks != null && dim.PortalBlocks.trim().length() > 0)
+							{
+								String[] portalBlocks = dim.PortalBlocks.split(",");
+								ArrayList<LocalMaterialData> materials = new ArrayList<LocalMaterialData>();					
+								for(String materialString : portalBlocks)
+								{
+									LocalMaterialData material = null;
+									try {
+										material = materialReader.readMaterial(materialString.trim());
+									} catch (InvalidConfigException e) { }
+									if(material != null)
+									{
+										materials.add(material);
+									}
+								}
+								this.portalBlocks = materials;
+							}					
+							this.portalColor = dim.PortalColor;
+							this.portalMob = dim.PortalMob;
+							this.portalIgnitionSource = dim.PortalIgnitionSource;
+							this.cavesEnabled = dim.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
+							this.ravinesEnabled = dim.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
+							break;
+						}
+					}
+				}
+			} else {
+				this.cavesEnabled = this.preset.getWorldConfig().getCavesEnabled();
+				this.ravinesEnabled = this.preset.getWorldConfig().getRavinesEnabled();
+			}
+			if(this.portalBlocks == null || this.portalBlocks.size() == 0)
+			{
+				this.portalBlocks = this.preset.getWorldConfig().getPortalBlocks(); 
+			}
+			if(this.portalColor == null)
+			{
+				this.portalColor = this.preset.getWorldConfig().getPortalColor();	
+			}
+			if(this.portalMob == null)
+			{
+				this.portalMob = this.preset.getWorldConfig().getPortalMob();
+			}
+			if(this.portalIgnitionSource == null)
+			{
+				this.portalIgnitionSource = this.preset.getWorldConfig().getPortalIgnitionSource();
+			}
+		}
+	}
+	
+	//
+	
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public ChunkGenerator withSeed(long seed)
@@ -432,6 +567,7 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 
 	@Override
 	public void applyCarvers(long seed, BiomeManager biomeManager, IChunk chunk, GenerationStage.Carving stage)
+<<<<<<< HEAD
 	{		
 		// OTG has its own caves and canyons carvers. We register default carvers to OTG biomes,
 		// then check if they have been overridden by mods before using our own carvers.
@@ -465,10 +601,20 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 				BitSet carvingMask = protoChunk.getOrCreateCarvingMask(stage);
 				this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask, cavesEnabled, ravinesEnabled);
 			}
+=======
+	{
+		if (stage == GenerationStage.Carving.AIR)
+		{
+			ChunkPrimer protoChunk = (ChunkPrimer) chunk;
+			ChunkBuffer chunkBuffer = new ForgeChunkBuffer(protoChunk);
+			BitSet carvingMask = protoChunk.getOrCreateCarvingMask(stage);
+			this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask, this.getCavesEnabled(), this.getRavinesEnabled());
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		}
-		applyNonOTGCarvers(seed, biomeManager, chunk, stage);
+		super.applyCarvers(seed, biomeManager, chunk, stage);
 	}
 
+<<<<<<< HEAD
 	public void applyNonOTGCarvers(long seed, BiomeManager biomeManager, IChunk chunk, GenerationStage.Carving stage)
 	{
 		BiomeManager biomemanager = biomeManager.withDifferentSource(this.biomeSource);
@@ -506,6 +652,8 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		}
 	}
 
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	// Decoration
 
 	// Does decoration for a given pos/chunk
@@ -529,12 +677,18 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		//
 
 		ChunkCoordinate chunkBeingDecorated = ChunkCoordinate.fromBlockCoords(worldX, worldZ);
+<<<<<<< HEAD
 		ForgeWorldGenRegion forgeWorldGenRegion = new ForgeWorldGenRegion(this.preset.getFolderName(), this.preset.getWorldConfig(), worldGenRegion, this);
+=======
+		ForgeWorldGenRegion forgeWorldGenRegion = new ForgeWorldGenRegion(this.preset.getFolderName(), this.preset.getWorldConfig(), worldGenRegion, this);		
+		IBiome biome = this.internalGenerator.getCachedBiomeProvider().getNoiseBiome((worldGenRegion.getCenterX() << 2) + 2, (worldGenRegion.getCenterZ() << 2) + 2);
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		// World save folder name may not be identical to level name, fetch it.
 		Path worldSaveFolder = worldGenRegion.getLevel().getServer().getWorldPath(FolderName.PLAYER_DATA_DIR).getParent();
 		try
 		{
 			// TODO: Snow is handled per chunk, so this may cause some artifacts on biome borders.
+<<<<<<< HEAD
 			if(
 				!biome.getBiomeConfig().getIsTemplateForBiome() ||
 				!biome1.getBiomeConfig().getIsTemplateForBiome() ||
@@ -542,6 +696,9 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 				!biome3.getBiomeConfig().getIsTemplateForBiome() ||				
 				!biome4.getBiomeConfig().getIsTemplateForBiome()
 			)
+=======
+			if(!biome.getBiomeConfig().getTemplateForBiome())
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 			{
 				this.chunkDecorator.doSnowAndIce(forgeWorldGenRegion, chunkBeingDecorated);
 			}
@@ -685,6 +842,7 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	{
 		return this.shadowChunkGenerator.getChunkWithoutLoadingOrCaching(this.internalGenerator, this.preset.getWorldConfig().getWorldHeightCap(), random, chunkCoord);
 	}
+<<<<<<< HEAD
 	
 	// Modpack config
 	// TODO: Move this?
@@ -767,4 +925,6 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 			}
 		}
 	}
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 }

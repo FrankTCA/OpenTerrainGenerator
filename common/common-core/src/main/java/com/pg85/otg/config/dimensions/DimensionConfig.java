@@ -163,6 +163,11 @@ public class DimensionConfig
 		public String PortalColor;
 		public String PortalMob;
 		public String PortalIgnitionSource;
+<<<<<<< HEAD
+=======
+		public boolean CarversEnabled;
+		public long Seed;
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 
 		public OTGDimension() {}
 		

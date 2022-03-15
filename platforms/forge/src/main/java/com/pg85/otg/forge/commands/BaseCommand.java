@@ -3,9 +3,6 @@ package com.pg85.otg.forge.commands;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.CommandSource;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
 
 public abstract class BaseCommand
 {
@@ -37,10 +34,6 @@ public abstract class BaseCommand
 	public String[] getDetailedHelp()
 	{
 		return this.detailedHelp;
-	}
-	
-	public IFormattableTextComponent createComponent(String text, String text2, TextFormatting color1, TextFormatting color2) {
-		return new StringTextComponent(text).withStyle(color1).append(new StringTextComponent(text2).withStyle(color2));
 	}
 
 	public abstract void build(LiteralArgumentBuilder<CommandSource> builder);

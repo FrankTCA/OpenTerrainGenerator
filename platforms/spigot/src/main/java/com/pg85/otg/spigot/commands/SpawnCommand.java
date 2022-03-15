@@ -78,7 +78,7 @@ public class SpawnCommand extends BaseCommand
 		}
 
 		Block block = getWatchedBlock(player, false);
-		// The block is null if there's no block within view distance -auth
+		// TODO: Why can watched block be null?
 		if(block == null)
 		{
 			block = player.getLocation().getBlock();

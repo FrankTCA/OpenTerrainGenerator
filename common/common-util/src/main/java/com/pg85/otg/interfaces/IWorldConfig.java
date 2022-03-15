@@ -218,6 +218,7 @@ public interface IWorldConfig
 	public String getPortalColor();
 	public String getPortalMob();
 	public String getPortalIgnitionSource();
+<<<<<<< HEAD
 
 	// Spawn point settings
 	
@@ -263,4 +264,6 @@ public interface IWorldConfig
 	public boolean getUniversalAnger();
 	boolean getForceLandAtSpawn();
     boolean getOldLandRarity();
+=======
+>>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 }

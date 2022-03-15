@@ -24,7 +24,6 @@ import com.pg85.otg.customobject.creator.ObjectCreator;
 import com.pg85.otg.customobject.creator.ObjectType;
 import com.pg85.otg.customobject.structures.StructuredCustomObject;
 import com.pg85.otg.customobject.util.Corner;
-import com.pg85.otg.forge.commands.RegionCommand.Region;
 import com.pg85.otg.forge.commands.arguments.FlagsArgument;
 import com.pg85.otg.forge.commands.arguments.PresetArgument;
 import com.pg85.otg.forge.gen.ForgeWorldGenRegion;
@@ -48,6 +47,8 @@ import net.minecraft.util.text.TextFormatting;
 
 public class ExportCommand extends BaseCommand
 {
+
+	
 	private static final String[] FLAGS = new String[]
 	{ "-o", "-a", "-b" };
 	
@@ -103,7 +104,6 @@ public class ExportCommand extends BaseCommand
 				source.sendSuccess(new StringTextComponent("Only players can execute this command"), false);
 				return 0;
 			}
-			ServerPlayerEntity playerEntity = (ServerPlayerEntity) source.getEntity();
 
 			// Extract here; this is kinda complex, would be messy in OTGCommand
 			String objectName = "";
@@ -159,20 +159,10 @@ public class ExportCommand extends BaseCommand
 				return 0;
 			}
 
-			Region region = null;
-			if (OTG.getEngine().getModLoadedChecker().isModLoaded("worldedit"))
-			{
-				region = WorldEditUtil.getRegionFromPlayer(playerEntity);
-			}
-
-			if (region == null)
-			{
-				region = RegionCommand.playerSelectionMap.get(source.getEntity());
-			}
-
+			RegionCommand.Region region = RegionCommand.playerSelectionMap.get(source.getEntity());
 			if (region == null || region.getMin() == null || region.getMax() == null)
 			{
-				source.sendSuccess(new StringTextComponent("Please define a region with /otg region mark, or worldedit"), false);
+				source.sendSuccess(new StringTextComponent("Please mark two corners with /otg region mark"), false);
 				return 0;
 			}
 
