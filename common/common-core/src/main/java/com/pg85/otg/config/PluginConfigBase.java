@@ -87,7 +87,7 @@ public abstract class PluginConfigBase extends ConfigFile implements IPluginConf
 	{
 		return this.logPerformance;
 	}	
-
+	
 	@Override
 	public boolean getDecorationEnabled()
 	{

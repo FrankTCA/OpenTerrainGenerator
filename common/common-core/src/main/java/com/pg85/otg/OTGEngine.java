@@ -86,8 +86,7 @@ public abstract class OTGEngine
 			this.pluginConfig.logBiomeRegistry(),
 			this.pluginConfig.logPerformance(),
 			this.pluginConfig.logDecoration(),
-			this.pluginConfig.logMobs(),
-			this.pluginConfig.logPresets()
+			this.pluginConfig.logMobs()
 		);
 		FileSettingsWriter.writeToFile(this.pluginConfig.getSettingsAsMap(), pluginConfigFile, this.pluginConfig.getSettingsMode(), this.logger);
 

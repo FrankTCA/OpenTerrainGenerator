@@ -789,6 +789,7 @@ public class ForgePresetLoader extends LocalPresetLoader
 			List<String> tagStrings = new ArrayList<>();
 			for(String tagString : templateBiomeTagStrings)
 			{
+<<<<<<< HEAD
 				String tagString2 = tagString.trim().toLowerCase();
 				String[] tagSubStrings = tagString2.split(" ");
 				if(tagSubStrings.length == 1)
@@ -823,9 +824,22 @@ public class ForgePresetLoader extends LocalPresetLoader
 								for(Entry<IBiomeResourceLocation, IBiomeConfig> entry : biomeConfigsByResourceLocation.entrySet())
 =======
 					if(!tagString2.startsWith(Constants.LABEL_EXCLUDE))
+=======
+				Set<RegistryKey<Biome>> biomesForTags = new HashSet<>();
+				if(
+					biomeEntry.toLowerCase().startsWith(Constants.BIOME_CATEGORY_LABEL) ||
+					biomeEntry.toLowerCase().startsWith(Constants.MC_BIOME_CATEGORY_LABEL) ||
+					biomeEntry.toLowerCase().startsWith(Constants.BIOME_DICT_TAG_LABEL) ||
+					biomeEntry.toLowerCase().startsWith(Constants.MC_BIOME_DICT_TAG_LABEL)
+				)
+				{					
+					String[] tagStrings = biomeEntry.split(" ");
+					for(String tagString : tagStrings)
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 					{
 						// Handle biome registry names: minecraft:plains
 						if(
+<<<<<<< HEAD
 							!tagString2.startsWith(Constants.MOD_LABEL) &&
 							!tagString2.startsWith(Constants.BIOME_CATEGORY_LABEL) &&
 							!tagString2.startsWith(Constants.MOD_BIOME_CATEGORY_LABEL) &&
@@ -1053,10 +1067,18 @@ public class ForgePresetLoader extends LocalPresetLoader
 						)
 						{
 							Biome.Category category = Biome.Category.byName(tagSubString2.replace(Constants.MOD_BIOME_CATEGORY_LABEL, "").replace(Constants.MC_BIOME_CATEGORY_LABEL, "").replace(Constants.BIOME_CATEGORY_LABEL, ""));
+=======
+							tagString.trim().toLowerCase().toLowerCase().startsWith(Constants.BIOME_CATEGORY_LABEL) ||
+							tagString.trim().toLowerCase().toLowerCase().startsWith(Constants.MC_BIOME_CATEGORY_LABEL)
+						)
+						{
+							Biome.Category category = Biome.Category.byName(tagString.trim().toLowerCase().toLowerCase().replace(Constants.MC_BIOME_CATEGORY_LABEL, "").replace(Constants.BIOME_CATEGORY_LABEL, ""));
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 							if(category != null)
 							{
 								biomesForTags.addAll(
 									ForgeRegistries.BIOMES.getValues().stream()
+<<<<<<< HEAD
 										.filter(biome -> 
 											biome.getBiomeCategory() == category &&
 											!excludedBiomes.contains(biome) &&
@@ -1075,6 +1097,16 @@ public class ForgePresetLoader extends LocalPresetLoader
 										).map(
 											b -> RegistryKey.create(Registry.BIOME_REGISTRY, b.getRegistryName())
 										).collect(Collectors.toList())
+=======
+									.filter(
+										a -> a.getBiomeCategory() == category &&
+										!a.getRegistryName().getNamespace().equals(Constants.MOD_ID_SHORT) &&
+										!blackListedBiomes.contains(a.getRegistryName().toString()) &&
+										(tagString.trim().toLowerCase().toLowerCase().startsWith(Constants.MC_BIOME_CATEGORY_LABEL) || !a.getRegistryName().getNamespace().equals("minecraft"))
+									).map(
+										b -> RegistryKey.create(Registry.BIOME_REGISTRY, b.getRegistryName())
+									).collect(Collectors.toList())
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 								);
 							} else {
 								if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
@@ -1086,11 +1118,17 @@ public class ForgePresetLoader extends LocalPresetLoader
 					}
 					// Handle biome dictionary tags
 					List<BiomeDictionary.Type> tags = new ArrayList<>();
+<<<<<<< HEAD
 					List<String> tagsStrings = new ArrayList<>();
 					for(String tagSubString : tagSubStrings)
+=======
+					List<Boolean> tagsMC = new ArrayList<>();
+					for(String tagString : tagStrings)
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 					{
 						String tagSubString2 = tagSubString.trim().toLowerCase().toLowerCase();
 						if(
+<<<<<<< HEAD
 							tagSubString2.startsWith(Constants.BIOME_DICT_TAG_LABEL_EXCLUDE) ||
 							tagSubString2.startsWith(Constants.MOD_BIOME_DICT_TAG_LABEL_EXCLUDE) ||
 							tagSubString2.startsWith(Constants.MC_BIOME_DICT_TAG_LABEL_EXCLUDE)
@@ -1118,6 +1156,17 @@ public class ForgePresetLoader extends LocalPresetLoader
 							{
 								tags.add(tag);
 								tagsStrings.add(tagSubString2);
+=======
+							tagString.trim().toLowerCase().startsWith(Constants.BIOME_DICT_TAG_LABEL) ||
+							tagString.trim().toLowerCase().startsWith(Constants.MC_BIOME_DICT_TAG_LABEL)
+						)
+						{
+							BiomeDictionary.Type tag = BiomeDictionary.Type.getType(tagString.trim().toLowerCase().replace(Constants.MC_BIOME_DICT_TAG_LABEL, "").replace(Constants.BIOME_DICT_TAG_LABEL, ""));
+							if(tag != null)
+							{
+								tags.add(tag);
+								tagsMC.add(tagString.trim().toLowerCase().startsWith(Constants.MC_BIOME_DICT_TAG_LABEL));
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 							} else {
 								if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.CONFIGS))
 								{
@@ -1126,6 +1175,7 @@ public class ForgePresetLoader extends LocalPresetLoader
 							}
 						}
 					}
+<<<<<<< HEAD
 					List<String> innerMods = new ArrayList<>();
 					for(String tagSubString : tagSubStrings)
 					{
@@ -1182,6 +1232,33 @@ public class ForgePresetLoader extends LocalPresetLoader
 								)
 							).collect(Collectors.toList())
 						);
+=======
+					if(tags.size() > 0)
+					{
+						if(biomesForTags.size() == 0)
+						{
+							biomesForTags.addAll(BiomeDictionary.getBiomes(tags.get(0)));
+						}					
+						biomesForTags = biomesForTags.stream()
+							.filter(a ->
+								!blackListedBiomes.contains(a.location().toString()) &&
+								!a.location().getNamespace().equals(Constants.MOD_ID_SHORT) &&
+								(tagsMC.get(0) || !a.location().getNamespace().equals("minecraft")) 								
+							).collect(Collectors.toSet());
+						
+						for(int i = 1; i < tags.size(); i++)
+						{
+							BiomeDictionary.Type tag = tags.get(i);
+							boolean allowMCBiomes = tagsMC.get(i);
+							biomesForTags = biomesForTags.stream()
+								.filter(
+									a -> BiomeDictionary.hasType(a, tag) &&
+									!blackListedBiomes.contains(a.location().toString()) &&
+									!a.location().getNamespace().equals(Constants.MOD_ID_SHORT) &&
+									(allowMCBiomes || !a.location().getNamespace().equals("minecraft"))
+								).collect(Collectors.toSet());
+						}
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 					}
 					if(biomesForTags.size() > 0)
 					{

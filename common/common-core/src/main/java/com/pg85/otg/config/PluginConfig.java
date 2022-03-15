@@ -24,7 +24,7 @@ public final class PluginConfig extends PluginConfigBase
 	public PluginConfig(SettingsMap settingsReader, IConfigFunctionProvider biomeResourcesManager, ILogger logger)
 	{
 		super(settingsReader.getName());
-		readConfigSettings(settingsReader, biomeResourcesManager, logger, null, null);
+		readConfigSettings(settingsReader, biomeResourcesManager, logger, null);
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public final class PluginConfig extends PluginConfigBase
 	protected void validateAndCorrectSettings(Path settingsDir, ILogger logger) { }
 
 	@Override
-	protected void readConfigSettings(SettingsMap reader, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader, String presetFolderName)
+	protected void readConfigSettings(SettingsMap reader, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader)
 	{
 		this.settingsMode = reader.getSetting(WorldStandardValues.SETTINGS_MODE, logger);
 		this.logLevel = reader.getSetting(PluginConfigStandardValues.LOG_LEVEL, logger);
@@ -110,19 +110,6 @@ public final class PluginConfig extends PluginConfigBase
 			"Logs information about mob config errors and spawning.",
 			"Defaults to: false"
 		);
-<<<<<<< HEAD
-
-		writer.putSetting(PluginConfigStandardValues.LOG_PRESETS, this.logPresets,
-			"Set the name of a preset or \"all\" to log warnings and errors",
-			"for specified presets only.",
-			"Default to: all"
-		);
-
-=======
-		
->>>>>>> parent of 4ae64008d (Added LogPresets setting in otg.ini)
-		writer.putSetting(PluginConfigStandardValues.LOG_PERFORMANCE, this.logPerformance,
-			"Logs information about any feature that is taking more than 50 milliseconds.",
 			"Includes: base terrain gen, decoration, resources, bo4 plotting, bo3/bo4 spawning.",
 			"Use this to find performance bottlenecks and optimise your world.",
 			"Defaults to: false"

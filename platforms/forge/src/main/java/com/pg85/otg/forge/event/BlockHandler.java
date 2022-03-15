@@ -9,6 +9,7 @@ import com.pg85.otg.constants.Constants;
 import com.pg85.otg.forge.dimensions.portals.OTGPortalBlock;
 import com.pg85.otg.forge.dimensions.portals.OTGPortalColors;
 import com.pg85.otg.forge.gen.OTGNoiseChunkGenerator;
+import com.pg85.otg.presets.Preset;
 import com.pg85.otg.util.materials.LocalMaterialData;
 
 import net.minecraft.item.Item;
@@ -58,11 +59,12 @@ public class BlockHandler
 					world.getChunkSource().generator instanceof OTGNoiseChunkGenerator
 				)
 				{
-					OTGNoiseChunkGenerator generator = ((OTGNoiseChunkGenerator)world.getChunkSource().generator);	
+					Preset preset = ((OTGNoiseChunkGenerator)world.getChunkSource().generator).getPreset();		
+	
 					Item ignitionItem = null;
 					try
 					{
-						ignitionItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(generator.getPortalIgnitionSource()));
+						ignitionItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation(preset.getWorldConfig().getPortalIgnitionSource()));
 					}
 					catch(ResourceLocationException ex) { }
 					if(ignitionItem == null)
@@ -70,7 +72,7 @@ public class BlockHandler
 						ignitionItem = Items.FLINT_AND_STEEL;
 					}
 
-					String portalColor = generator.getPortalColor().toLowerCase().trim();
+					String portalColor = preset.getWorldConfig().getPortalColor().toLowerCase().trim();
 					while(usedColors.contains(portalColor))
 					{
 						portalColor = OTGPortalColors.getNextPortalColor(portalColor);	
@@ -80,7 +82,7 @@ public class BlockHandler
 					if (event.getItemStack().getItem() == ignitionItem)
 					{
 						RegistryObject<OTGPortalBlock> otgPortalBlock = OTGPortalColors.getPortalBlockByColor(portalColor);				
-						List<LocalMaterialData> portalBlocks = generator.getPortalBlocks();
+						List<LocalMaterialData> portalBlocks = preset.getWorldConfig().getPortalBlocks();
 						if (OTGPortalBlock.checkForPortal((ServerWorld)event.getWorld(), pos, event.getPlayer(), event.getHand(), event.getItemStack(), otgPortalBlock, portalBlocks)) 
 						{
 							event.setCanceled(true);

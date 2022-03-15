@@ -61,13 +61,13 @@ public class WorldConfig extends WorldConfigBase
 	private int worldHeightScaleBits;
 	private int worldHeightCapBits;
 	
-	public WorldConfig(Path settingsDir, SettingsMap settingsReader, ArrayList<String> biomes, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader, String presetFolderName)
+	public WorldConfig(Path settingsDir, SettingsMap settingsReader, ArrayList<String> biomes, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader)
 	{
 		super(settingsReader.getName());
 
 		this.worldBiomes.addAll(biomes);
 		this.renameOldSettings(settingsReader, logger, materialReader);
-		this.readConfigSettings(settingsReader, biomeResourcesManager, logger, materialReader, presetFolderName);
+		this.readConfigSettings(settingsReader, biomeResourcesManager, logger, materialReader);
 		this.validateAndCorrectSettings(settingsDir, logger);		 
 	}
 
@@ -155,7 +155,7 @@ public class WorldConfig extends WorldConfigBase
 	}
 
 	@Override
-	protected void readConfigSettings(SettingsMap reader, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader, String presetFolderName)
+	protected void readConfigSettings(SettingsMap reader, IConfigFunctionProvider biomeResourcesManager, ILogger logger, IMaterialReader materialReader)
 	{
 		// Misc
 
@@ -528,55 +528,6 @@ public class WorldConfig extends WorldConfigBase
 			"Example: BiomeGroup(NormalBiomes, 1, 100, category.plains tag.overworld, tag.hot tag.dry)",
 			"Adds 2 entries; all plains biomes in the overworld, all hot+dry biomes. Biomes are never added twice.",
 			"- Use space as an AND operator, in the above example \"category.plains tag.overworld\" matches biomes with category plains AND tag overworld.",
-			"To target both minecraft and modded biomes, use \"category.\" or \"tag.\".",
-			"To target only modded biomes, use \"modcategory.\" or \"modtag.\".",
-			"To target only minecraft biomes, use \"mccategory.\" or \"mctag.\".",
-			"To filter biomes for a specific mod, add \"mod.<namespace>\", for example \"mod.byg category.plains tag.overworld\".",
-			"To exclude specific biome registry names, tags, categories or mods, use \"-\", for example -tag.overworld to exclude overworld biomes.",			
-			"MinTemperature/MaxTemperature - Optional, when using Tags/Categories, only biomes within this temperature range are used.",
-			"Example: BiomeGroup(NormalBiomes, 1, 100, category.plains tag.overworld, tag.hot tag.dry, -1.0, 1.0)",
-			"Same example as before, but only includes biomes with temperature between -1.0 and 1.0.",
-			"Note:", 
-			"When using BiomeRegistryName to include or exclude a biome, it must have its own entry, for example: \",minecraft:forest,-minecraft:plains,\"",
-			"If using BiomeMode: Normal, there are no limitations on the number of biome groups you can have or their names.",
-			"If using BiomeMode: NoGroups, only two biome group names are valid, NormalBiomes and IceBiomes, other groups are ignored. Only the size and rarity of the group named IceBiomes will be used, the size and rarity of the NormalBiomes group is ignored."
-		);
-
-		writer.addConfigFunctions(this.biomeGroupManager.getGroups());
-
-		writer.putSetting(WorldStandardValues.BLACKLISTED_BIOMES, this.blackListedBiomes,
-			"When using biome dictionary tags and/or biome categories with biome groups, these (non-OTG) biomes are excluded. Example: minecraft:plains."
-		);
-		
-		writer.header2("Isle & Border Biomes");
-		
-		writer.putSetting(WorldStandardValues.ISLE_BIOMES, this.isleBiomes,
-			"Isle biomes are biomes which spawn inside another biome (e.g. an island in an ocean). As well as listing every isle biome here, you must set IsleInBiome in each biome config too. Biome name is case sensitive."
-		);
-
-		writer.putSetting(WorldStandardValues.BORDER_BIOMES, this.borderBiomes,
-			"Biomes used as borders of other biomes. As well as listing every border biome here, you must set BiomeIsBorder in each biome config too. Biome name is case sensitive."
-		);
-
-		writer.header2("Landmass Settings");
-
-		writer.putSetting(WorldStandardValues.LAND_RARITY, this.landRarity,
-			"Land rarity from 100 to 1. Higher numbers result in more land."
-		);
-
-		writer.putSetting(WorldStandardValues.LAND_SIZE, this.landSize,
-			"Land size from 0 to GenerationDepth. Higher LandSize numbers will make the size of the land smaller. Landsize number should always be lower than any biome groups."
-		);
-
-<<<<<<< HEAD
-		writer.putSetting(WorldStandardValues.FORCE_LAND_AT_SPAWN, this.forceLandAtSpawn,
-			"If enabled, land will always spawn at or near 0,0"
-		);
-
-		writer.putSetting(WorldStandardValues.OCEAN_BIOME_SIZE, this.oceanBiomeSize,
-=======
-		writer.putSetting(WorldStandardValues.OCEAN_BIOME_SIZE, this.landSize,
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 			"Ocean biome size 0 to GenerationDepth. Higher OceanBiomeSize numbers will make the size of the ocean biomes smaller."
 		);
 

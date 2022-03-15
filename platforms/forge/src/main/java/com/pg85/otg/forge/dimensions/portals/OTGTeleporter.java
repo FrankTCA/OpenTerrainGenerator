@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 import com.pg85.otg.forge.gen.OTGNoiseChunkGenerator;
 import com.pg85.otg.forge.materials.ForgeMaterialData;
+import com.pg85.otg.presets.Preset;
 import com.pg85.otg.util.materials.LocalMaterialData;
 
 import net.minecraft.block.BlockState;
@@ -251,8 +252,9 @@ public class OTGTeleporter implements ITeleporter
 						world.getChunkSource().generator instanceof OTGNoiseChunkGenerator
 					)
 					{
-						OTGNoiseChunkGenerator generator = ((OTGNoiseChunkGenerator)world.getChunkSource().generator);
-						String portalColor = generator.getPortalColor().toLowerCase().trim();
+						Preset preset = ((OTGNoiseChunkGenerator)world.getChunkSource().generator).getPreset();
+
+						String portalColor = preset.getWorldConfig().getPortalColor().toLowerCase().trim();
 						while(usedColors.contains(portalColor))
 						{
 							portalColor = OTGPortalColors.getNextPortalColor(portalColor);	
@@ -263,7 +265,7 @@ public class OTGTeleporter implements ITeleporter
 						{
 							blockPortalOTG = OTGPortalColors.getPortalBlockByColor(playerPortalColor);
 							portalOTGPOI = OTGPortalColors.getPortalPOIByColor(playerPortalColor);
-							List<LocalMaterialData> portalBlocks = generator.getPortalBlocks();
+							List<LocalMaterialData> portalBlocks = preset.getWorldConfig().getPortalBlocks();
 							if(portalBlocks.size() > 0)
 							{
 								portalBlock = ((ForgeMaterialData)portalBlocks.get(0)).internalBlock();	

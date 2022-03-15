@@ -66,7 +66,10 @@ public class CaveCarver extends Carver
 	@Override
 	public boolean isStartChunk(Random random, int chunkX, int chunkZ)
 	{
-		if (this.worldConfig.getCaveFrequency() <= 0)
+		if (
+			!this.worldConfig.getCavesEnabled() ||
+			this.worldConfig.getCaveFrequency() <= 0
+		)
 		{
 			return false;
 		}

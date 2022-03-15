@@ -154,7 +154,6 @@ public class OTGGui
 
 								createWorldScreen.worldGenSettingsComponent.updateSettings(
 									OTGDimensionType.createOTGDimensionGeneratorSettings(
-										dimConfig.isModpackConfig() ? Constants.MODPACK_CONFIG_NAME : null,											
 										dimConfig,
 										dimensionTypesRegistry,
 										biomesRegistry,

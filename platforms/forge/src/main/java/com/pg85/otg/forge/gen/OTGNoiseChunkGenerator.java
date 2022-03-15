@@ -2,10 +2,13 @@ package com.pg85.otg.forge.gen;
 
 import java.nio.file.Path;
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.util.*;
 import java.util.Map.Entry;
 =======
 import java.util.ArrayList;
+=======
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import java.util.BitSet;
 import java.util.List;
 import java.util.Random;
@@ -22,12 +25,9 @@ import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.pg85.otg.OTG;
-import com.pg85.otg.config.dimensions.DimensionConfig;
-import com.pg85.otg.config.dimensions.DimensionConfig.OTGDimension;
 import com.pg85.otg.constants.Constants;
 import com.pg85.otg.constants.SettingsEnums.CustomStructureType;
 import com.pg85.otg.customobject.structures.CustomStructureCache;
-import com.pg85.otg.exceptions.InvalidConfigException;
 import com.pg85.otg.forge.materials.ForgeMaterialData;
 import com.pg85.otg.forge.presets.ForgePresetLoader;
 import com.pg85.otg.forge.biome.ForgeBiome;
@@ -37,8 +37,11 @@ import com.pg85.otg.gen.OTGChunkDecorator;
 import com.pg85.otg.interfaces.IBiome;
 import com.pg85.otg.interfaces.ICachedBiomeProvider;
 import com.pg85.otg.interfaces.ILayerSource;
+<<<<<<< HEAD
 import com.pg85.otg.interfaces.IMaterialReader;
 import com.pg85.otg.interfaces.IWorldConfig;
+=======
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import com.pg85.otg.presets.Preset;
 import com.pg85.otg.util.ChunkCoordinate;
 import com.pg85.otg.util.gen.ChunkBuffer;
@@ -107,11 +110,6 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 							return p_236090_0_.preset.getFolderName();
 						}
 					),
-					Codec.STRING.fieldOf("dim_config_name").forGetter(
-						(p_236090_0_) -> {
-							return p_236090_0_.dimConfigName;
-						}
-					),
 					BiomeProvider.CODEC.fieldOf("biome_source").forGetter(
 						(p_236096_0_) -> { return p_236096_0_.biomeSource; }
 					),
@@ -133,32 +131,26 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	private final OTGChunkGenerator internalGenerator;
 	private final OTGChunkDecorator chunkDecorator;
 	private final Preset preset;
-	private final String dimConfigName;
-	private final DimensionConfig dimConfig;
 	private CustomStructureCache structureCache; // TODO: Move this?
-	
-	// TODO: Modpack config specific, move this?
-	private boolean portalDataProcessed = false;
-	private List<LocalMaterialData> portalBlocks;
-	private String portalColor;
-	private String portalMob;
-	private String portalIgnitionSource;
-	private boolean cavesEnabled;
-	private boolean ravinesEnabled;
 
 	public OTGNoiseChunkGenerator(BiomeProvider biomeProvider, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
 	{
-		this(OTG.getEngine().getPresetLoader().getDefaultPresetFolderName(), null, biomeProvider, biomeProvider, seed, dimensionSettingsSupplier);
+		this(OTG.getEngine().getPresetLoader().getDefaultPresetFolderName(), biomeProvider, biomeProvider, seed, dimensionSettingsSupplier);
 	}
 
-	public OTGNoiseChunkGenerator(String presetFolderName, String dimConfigName, BiomeProvider biomeProvider, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
+	public OTGNoiseChunkGenerator(String presetFolderName, BiomeProvider biomeProvider, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
 	{
-		this(presetFolderName, dimConfigName, biomeProvider, biomeProvider, seed, dimensionSettingsSupplier);
+		this(presetFolderName, biomeProvider, biomeProvider, seed, dimensionSettingsSupplier);
 	}
-
+	
 	// TODO: Why are there 2 biome providers, and why does getBiomeProvider() return the second, while we're using the first?
 	// It looks like vanilla just inserts the same biomeprovider twice?
+<<<<<<< HEAD
 	private OTGNoiseChunkGenerator(String presetFolderName, String dimConfigName, BiomeProvider biomeProvider1, BiomeProvider biomeProvider2, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
+=======
+	@SuppressWarnings("deprecation")
+	private OTGNoiseChunkGenerator(String presetFolderName, BiomeProvider biomeProvider1, BiomeProvider biomeProvider2, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	{
 		super(biomeProvider1, biomeProvider2, seed, overrideStructureSettings(dimensionSettingsSupplier.get(), presetFolderName));
 
@@ -167,6 +159,7 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 			throw new RuntimeException("OTG has detected an incompatible biome provider- try using otg:otg as the biome source name");
 		}
 
+<<<<<<< HEAD
 		this.preset = OTG.getEngine().getPresetLoader().getPresetByFolderName(presetFolderName);
 		if(dimConfigName != null && dimConfigName.trim().length() > 0)
 		{
@@ -176,6 +169,19 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 			this.dimConfigName = "";
 			this.dimConfig = null;
 		}	
+=======
+		this.worldSeed = seed;
+		this.preset = OTG.getEngine().getPresetLoader().getPresetByFolderName(presetFolderName);		
+		this.dimensionSettingsSupplier = dimensionSettingsSupplier;		
+		DimensionSettings dimensionsettings = dimensionSettingsSupplier.get();	
+		NoiseSettings noisesettings = dimensionsettings.noiseSettings();
+		this.defaultBlock = dimensionsettings.getDefaultBlock();
+		this.defaultFluid = dimensionsettings.getDefaultFluid();
+		this.random = new SharedSeedRandom(seed);
+		this.surfaceNoise = (INoiseGenerator)(noisesettings.useSimplexSurfaceNoise() ? new PerlinNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0)) : new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0)));
+		this.noiseHeight = noisesettings.height();
+
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		this.shadowChunkGenerator = new ShadowChunkGenerator(OTG.getEngine().getPluginConfig().getMaxWorkerThreads());
 		this.internalGenerator = new OTGChunkGenerator(this.preset, seed, (ILayerSource) biomeProvider1,((ForgePresetLoader)OTG.getEngine().getPresetLoader()).getGlobalIdMapping(presetFolderName), OTG.getEngine().getLogger());
 		this.chunkDecorator = new OTGChunkDecorator();
@@ -317,6 +323,7 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 	// TODO: Modpack config specific, move this?
 
@@ -435,11 +442,17 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	//
 	
 >>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
+=======
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public ChunkGenerator withSeed(long seed)
 	{
+<<<<<<< HEAD
 		return new OTGNoiseChunkGenerator(this.preset.getFolderName(), this.dimConfigName, this.biomeSource.withSeed(seed), seed, this.settings);
+=======
+		return new OTGNoiseChunkGenerator(this.preset.getFolderName(), this.biomeSource.withSeed(seed), seed, this.dimensionSettingsSupplier);
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	}
 
 	@Override
@@ -608,8 +621,12 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 			ChunkPrimer protoChunk = (ChunkPrimer) chunk;
 			ChunkBuffer chunkBuffer = new ForgeChunkBuffer(protoChunk);
 			BitSet carvingMask = protoChunk.getOrCreateCarvingMask(stage);
+<<<<<<< HEAD
 			this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask, this.getCavesEnabled(), this.getRavinesEnabled());
 >>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
+=======
+			this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask);
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		}
 		super.applyCarvers(seed, biomeManager, chunk, stage);
 	}

@@ -622,29 +622,27 @@ public class OTGChunkGenerator implements ISurfaceGeneratorNoiseProvider
 		}
 	}
 
-	public void carve(ChunkBuffer chunk, long seed, int chunkX, int chunkZ, BitSet carvingMask, boolean cavesEnabled, boolean ravinesEnabled)
+	public void carve(ChunkBuffer chunk, long seed, int chunkX, int chunkZ, BitSet carvingMask)
 	{
 		// TODO: it should be possible to cache these carver graphs to make larger carvers more efficient and easier to use
-		if(cavesEnabled || ravinesEnabled)
+
+		Random random = new Random();
+		for (int localChunkX = chunkX - 8; localChunkX <= chunkX + 8; ++localChunkX)
 		{
-			Random random = new Random();
-			for (int localChunkX = chunkX - 8; localChunkX <= chunkX + 8; ++localChunkX)
+			for (int localChunkZ = chunkZ - 8; localChunkZ <= chunkZ + 8; ++localChunkZ)
 			{
-				for (int localChunkZ = chunkZ - 8; localChunkZ <= chunkZ + 8; ++localChunkZ)
+				setCarverSeed(random, seed, localChunkX, localChunkZ);
+				
+				if(this.caves.isStartChunk(random, localChunkX, localChunkZ))
 				{
-					setCarverSeed(random, seed, localChunkX, localChunkZ);
-					
-					if(cavesEnabled && this.caves.isStartChunk(random, localChunkX, localChunkZ))
-					{
-						this.caves.carve(this, chunk, random, localChunkX, localChunkZ, chunkX, chunkZ, carvingMask, this.cachedBiomeProvider);
-					}
-					
-					setCarverSeed(random, seed, localChunkX, localChunkZ);
-					
-					if(ravinesEnabled && this.ravines.isStartChunk(random, localChunkX, localChunkZ))
-					{
-						this.ravines.carve(this, chunk, random, localChunkX, localChunkZ, chunkX, chunkZ, carvingMask, this.cachedBiomeProvider);
-					}
+					this.caves.carve(this, chunk, random, localChunkX, localChunkZ, chunkX, chunkZ, carvingMask, this.cachedBiomeProvider);
+				}
+				
+				setCarverSeed(random, seed, localChunkX, localChunkZ);
+				
+				if(this.ravines.isStartChunk(random, localChunkX, localChunkZ))
+				{
+					this.ravines.carve(this, chunk, random, localChunkX, localChunkZ, chunkX, chunkZ, carvingMask, this.cachedBiomeProvider);
 				}
 			}
 		}

@@ -158,17 +158,6 @@ public class DimensionConfig
 	public static class OTGDimension
 	{
 		public String PresetFolderName;
-		public long Seed;
-		public String PortalBlocks;
-		public String PortalColor;
-		public String PortalMob;
-		public String PortalIgnitionSource;
-<<<<<<< HEAD
-=======
-		public boolean CarversEnabled;
-		public long Seed;
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-
 		public OTGDimension() {}
 		
 		public OTGDimension(String presetFolderName, long seed)

@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 
 import com.pg85.otg.forge.gen.OTGNoiseChunkGenerator;
 import com.pg85.otg.forge.materials.ForgeMaterialData;
+import com.pg85.otg.presets.Preset;
 import com.pg85.otg.util.materials.LocalMaterialData;
 
 import net.minecraft.block.AbstractBlock;
@@ -186,8 +187,9 @@ public class OTGPortalBlock extends NetherPortalBlock
 					world.getChunkSource().generator instanceof OTGNoiseChunkGenerator
 				)
 				{
-					OTGNoiseChunkGenerator generator = ((OTGNoiseChunkGenerator)world.getChunkSource().generator);
-					String portalColor = generator.getPortalColor().toLowerCase().trim();
+					Preset preset = ((OTGNoiseChunkGenerator)world.getChunkSource().generator).getPreset();
+					
+					String portalColor = preset.getWorldConfig().getPortalColor().toLowerCase().trim();
 					while(usedColors.contains(portalColor))
 					{
 						portalColor = OTGPortalColors.getNextPortalColor(portalColor);
@@ -196,7 +198,7 @@ public class OTGPortalBlock extends NetherPortalBlock
 					
 					if(this.portalColor.equals(portalColor))
 					{
-						Optional<EntityType<?>> optEntityType = EntityType.byString(generator.getPortalMob());
+						Optional<EntityType<?>> optEntityType = EntityType.byString(preset.getWorldConfig().getPortalMob());
 						if(optEntityType.isPresent())
 						{
 							entityType = optEntityType.get();
@@ -247,7 +249,9 @@ public class OTGPortalBlock extends NetherPortalBlock
 						world.getChunkSource().generator instanceof OTGNoiseChunkGenerator
 					)
 					{
-						String portalColor = ((OTGNoiseChunkGenerator)world.getChunkSource().generator).getPortalColor().toLowerCase().trim();
+						Preset preset = ((OTGNoiseChunkGenerator)world.getChunkSource().generator).getPreset();
+
+						String portalColor = preset.getWorldConfig().getPortalColor().toLowerCase().trim();
 						while(usedColors.contains(portalColor))
 						{
 							portalColor = OTGPortalColors.getNextPortalColor(portalColor);	

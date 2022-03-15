@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.datafixers.util.Pair;
 import com.pg85.otg.config.dimensions.DimensionConfig;
-import com.pg85.otg.constants.Constants;
 import com.pg85.otg.forge.dimensions.OTGDimensionType;
 import com.pg85.otg.forge.gui.OTGGui;
 
@@ -142,7 +141,6 @@ public class ModpackCreateWorldScreen extends CreateWorldScreen
 		this.seedEdit.tick();
 	}
 
-	@SuppressWarnings("incomplete-switch")
 	@Override
 	protected void init()
 	{
@@ -283,7 +281,7 @@ public class ModpackCreateWorldScreen extends CreateWorldScreen
 		this.setGameMode(this.gameMode);
 		this.updateResultFolder();
 		
-		DimensionConfig modPackConfig = DimensionConfig.fromDisk(Constants.MODPACK_CONFIG_NAME);
+		DimensionConfig modPackConfig = DimensionConfig.fromDisk("Modpack");
 		if(modPackConfig == null || modPackConfig.ModpackName == null)
 		{
 			this.title = new TranslationTextComponent("otg.createDimensions.customize.title");
@@ -331,8 +329,8 @@ public class ModpackCreateWorldScreen extends CreateWorldScreen
 		{
 			this.cleanupTempResources();
 			OptionalLong seed = parseSeed();
-			DimensionConfig modpackConfig = DimensionConfig.fromDisk(Constants.MODPACK_CONFIG_NAME);			
-			DimensionGeneratorSettings dimensiongeneratorsettings = OTGDimensionType.createOTGSettings(this.worldGenSettingsComponent.registryHolder(), seed.isPresent() ? seed.getAsLong() : -1l, modpackConfig.Settings != null ? modpackConfig.Settings.GenerateStructures : true, modpackConfig.Settings != null ? modpackConfig.Settings.BonusChest : true, Constants.MODPACK_CONFIG_NAME);
+			DimensionConfig modpackConfig = DimensionConfig.fromDisk("Modpack");			
+			DimensionGeneratorSettings dimensiongeneratorsettings = OTGDimensionType.createOTGSettings(this.worldGenSettingsComponent.registryHolder(), seed.isPresent() ? seed.getAsLong() : -1l, modpackConfig.Settings != null ? modpackConfig.Settings.GenerateStructures : true, modpackConfig.Settings != null ? modpackConfig.Settings.BonusChest : true, "Modpack");
 
 			if(modpackConfig.GameRules != null)
 			{
@@ -617,7 +615,6 @@ public class ModpackCreateWorldScreen extends CreateWorldScreen
 		return mutableobject.getValue();
 	}
 
-	@SuppressWarnings("deprecation")
 	@Nullable
 	private Pair<File, ResourcePackList> getDataPackSelectionSettings()
 	{
@@ -639,7 +636,6 @@ public class ModpackCreateWorldScreen extends CreateWorldScreen
 		}
 	}
 
-	@SuppressWarnings("serial")
 	@OnlyIn(Dist.CLIENT)
 	static class DatapackException extends RuntimeException
 	{

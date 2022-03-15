@@ -8,8 +8,12 @@ import javax.annotation.Nullable;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.pg85.otg.config.dimensions.DimensionConfig;
 import com.pg85.otg.config.dimensions.DimensionConfig.OTGDimension;
+<<<<<<< HEAD
 import com.pg85.otg.constants.Constants;
 import com.pg85.otg.forge.gui.OTGGui;
+=======
+import com.pg85.otg.config.dimensions.DimensionConfig.OTGOverWorld;
+>>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 
 import net.minecraft.client.gui.DialogTexts;
 import net.minecraft.client.gui.screen.CreateWorldScreen;
@@ -65,7 +69,7 @@ public class CreateOTGDimensionsScreen extends Screen
 	private static TextComponent setTitle()
 	{
 		// If there is a dimensionconfig for the generatorsettings, use that. Otherwise find a preset by name.
-		modpackConfig = DimensionConfig.fromDisk(Constants.MODPACK_CONFIG_NAME);
+		modpackConfig = DimensionConfig.fromDisk("Modpack");
 
 		if(modpackConfig == null || modpackConfig.ModpackName == null)
 		{
