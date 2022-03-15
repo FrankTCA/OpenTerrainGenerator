@@ -30,7 +30,7 @@ import com.pg85.otg.forge.gen.ForgeWorldGenRegion;
 import com.pg85.otg.forge.materials.ForgeMaterialData;
 import com.pg85.otg.forge.util.ForgeNBTHelper;
 import com.pg85.otg.presets.Preset;
-import com.pg85.otg.util.nbt.LocalNBTHelper;
+import com.pg85.otg.util.bo3.LocalNBTHelper;
 import com.pg85.otg.util.logging.LogCategory;
 import com.pg85.otg.util.logging.LogLevel;
 import com.pg85.otg.util.materials.LocalMaterialData;

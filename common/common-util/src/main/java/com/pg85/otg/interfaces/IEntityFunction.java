@@ -1,6 +1,6 @@
 package com.pg85.otg.interfaces;
 
-import com.pg85.otg.util.nbt.NamedBinaryTag;
+import com.pg85.otg.util.bo3.NamedBinaryTag;
 
 public interface IEntityFunction
 {
