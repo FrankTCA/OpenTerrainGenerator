@@ -309,6 +309,7 @@ public class BO3Config extends CustomObjectConfigFile
 			block.material = this.blocksMaterial[rotation][i];
 			block.nbtName = this.blocksMetaDataName[i];
 			block.nbt = this.blocksMetaDataTag[i];
+
 			blocksOTGPlus[i] = block;
 		}
 
