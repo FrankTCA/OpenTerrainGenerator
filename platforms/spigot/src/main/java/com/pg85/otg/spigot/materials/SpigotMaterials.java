@@ -325,7 +325,5 @@ public class SpigotMaterials extends LocalMaterials
 		COAL_BLOCK = SpigotMaterialData.ofBlockData(Blocks.COAL_BLOCK.getBlockData());
 		QUARTZ_BLOCK = SpigotMaterialData.ofBlockData(Blocks.QUARTZ_BLOCK.getBlockData());
 		EMERALD_BLOCK = SpigotMaterialData.ofBlockData(Blocks.EMERALD_BLOCK.getBlockData());
-
-		BERRY_BUSH = SpigotMaterialData.ofBlockData(Blocks.SWEET_BERRY_BUSH.getBlockData());
 	}
 }

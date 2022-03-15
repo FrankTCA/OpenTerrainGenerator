@@ -184,6 +184,4 @@ public class LocalMaterials
 	public static LocalMaterialData COAL_BLOCK;
 	public static LocalMaterialData QUARTZ_BLOCK;
 	public static LocalMaterialData EMERALD_BLOCK;
-
-	public static LocalMaterialData BERRY_BUSH;
 }

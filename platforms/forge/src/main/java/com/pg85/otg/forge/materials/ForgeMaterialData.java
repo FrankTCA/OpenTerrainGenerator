@@ -275,10 +275,6 @@ public class ForgeMaterialData extends LocalMaterialData
 		{
 			property = BlockStateProperties.AGE_25;
 		}
-		else if (materialProperty == MaterialProperties.AGE_0_3)
-		{
-			property = BlockStateProperties.AGE_3;
-		}
 		else if (materialProperty == MaterialProperties.PICKLES_1_4)
 		{
 			property = BlockStateProperties.PICKLES;

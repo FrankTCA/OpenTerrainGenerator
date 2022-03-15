@@ -328,7 +328,5 @@ public class ForgeMaterials extends LocalMaterials
 		COAL_BLOCK = ForgeMaterialData.ofBlockState(Blocks.COAL_BLOCK.defaultBlockState());
 		QUARTZ_BLOCK = ForgeMaterialData.ofBlockState(Blocks.QUARTZ_BLOCK.defaultBlockState());
 		EMERALD_BLOCK = ForgeMaterialData.ofBlockState(Blocks.EMERALD_BLOCK.defaultBlockState());
-
-		BERRY_BUSH = ForgeMaterialData.ofBlockState(Blocks.SWEET_BERRY_BUSH.defaultBlockState());
 	}
 }
