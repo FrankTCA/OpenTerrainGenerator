@@ -32,17 +32,15 @@ public class Extractor
 				for (int y = min.y; y <= max.y; y++)
 				{
 					LocalMaterialData materialData = localWorld.getMaterial(x, y, z);
-					boolean stop = false;
 					for (LocalMaterialData exclude : excludes) {
-						if (exclude.matches(materialData))
-							stop = true;
+						if (materialData.getRegistryName().equals(exclude.getRegistryName()))
+							continue;
 					}
 
 					if (materialData == null
 						|| materialData.isMaterial(LocalMaterials.STRUCTURE_VOID)
 						|| materialData.isMaterial(LocalMaterials.STRUCTURE_BLOCK)
-						|| (!includeAir && materialData.isAir())
-						|| stop)
+						|| (!includeAir && materialData.isAir()))
 					{
 						continue;
 					}
