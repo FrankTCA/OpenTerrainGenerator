@@ -26,11 +26,6 @@ We're always looking for people to contribute or collaborate with. For OTG 1.16,
 - Then, all you have to do is Open IntelliJ and import the project folder, make sure you Trust the gradle project, and IntelliJ will do the rest :)
 - Follow the same instructions that you do for Eclipse if you want to build -- do note that IntelliJ has a gradle GUI that you can use once you've imported the project. (Should be on the right of the code.)
 
-## Dev Builds
-There are dev builds available for 1.16.5 [here](https://github.com/PG85/OpenTerrainGenerator/actions?query=branch%3A1.16.4).
-
-You will **NOT** get official support for dev builds, and they may break. Please use the mod jars available to you on CurseForge and the [OTG Discord](https://discord.gg/vTqe4zr5Hc).
-
 ## Links
 * [CurseForge](https://minecraft.curseforge.com/projects/open-terrain-generator)
 * [Wiki](http://openterraingen.wikia.com/wiki/Open_Terrain_Generator_Wiki)
