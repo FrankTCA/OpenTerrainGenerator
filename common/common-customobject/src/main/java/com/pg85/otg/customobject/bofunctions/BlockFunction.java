@@ -86,61 +86,6 @@ public abstract class BlockFunction<T extends CustomObjectConfigFile> extends Cu
 				}
 			}
 
-					}
-				}
-				 /*
-				 * The following commented-out code is a testemant to Frank's stupidity.
-				 * To anyone reading this, Frank is a complete and total idiot.
-				  */
-				 /*if (val.equals("minecraft:cactus")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_cactus");
-				 } else if (val.equals("minecraft:dandelion")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_dandelion");
-				 } else if (val.equals("minecraft:poppy")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_poppy");
-				 } else if (val.equals("minecraft:blue_orchid")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_blue_orchid");
-				 } else if (val.equals("minecraft:allium")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_allium");
-				 } else if (val.equals("minecraft:azure_bluet")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_azure_bluet");
-				 } else if (val.equals("minecraft:red_tulip")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_red_tulip");
-				 } else if (val.equals("minecraft:orange_tulip")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_orange_tulip");
-				 } else if (val.equals("minecraft:white_tulip")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_white_tulip");
-				 } else if (val.equals("minecraft:pink_tulip")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_pink_tulip");
-				 } else if (val.equals("minecraft:oxeye_daisy")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_oxeye_daisy");
-				 } else if (val.equals("minecraft:cornflower")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_cornflower");
-				 } else if (val.equals("minecraft:lily_of_the_valley")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_lily_of_the_valley");
-				 } else if (val.equals("minecraft:wither_rose")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_wither_rose");
-				 } else if (val.equals("minecraft:oak_sapling")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_oak_sapling");
-				 } else if (val.equals("minecraft:spruce_sapling")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_spruce_sapling");
-				 } else if (val.equals("minecraft:birch_sapling")) {
-				 	this.material = materialReader.readMaterial("minecraft:potted_birch_sapling");
-				 } else if (val.equals("minecraft:"))*/
-			}
-		}
-	}
-
-	@Override
-	public String makeString()
-	{
-		String start = "B(" + x + ',' + y + ',' + z + ',' + material;
-		if (nbt != null)
-		{
-			start += ',' + nbtName;
-		}
-		return start + ')';
-	}
 
 	public abstract void spawn(IWorldGenRegion worldGenRegion, Random random, int x, int y, int z);
 	
