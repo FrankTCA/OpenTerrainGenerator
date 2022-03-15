@@ -58,6 +58,7 @@ public class OTGWorldOptionsScreen extends WorldOptionsScreen
 			this.seed = this.parseSeed();
 		});
 		((OTGCreateWorldScreen)p_239048_1_).addWidget(this.seedEdit);
+		int i = this.width / 2 - 155;
 		int j = this.width / 2 + 5;
 		this.typeButton = ((OTGCreateWorldScreen)p_239048_1_).addButton(new Button(j, 100, 150, 20, new TranslationTextComponent("selectWorld.mapType"), (p_239050_2_) ->
 		{
@@ -94,13 +95,11 @@ public class OTGWorldOptionsScreen extends WorldOptionsScreen
 				return;
 			}
 		}) {
-			@Override
 			public ITextComponent getMessage()
 			{
 				return super.getMessage().copy().append(" ").append(OTGWorldOptionsScreen.this.preset.map(BiomeGeneratorTypeScreens::description).orElse(OTGWorldOptionsScreen.CUSTOM_WORLD_DESCRIPTION));
 			}
 	
-			@Override
 			protected IFormattableTextComponent createNarrationMessage()
 			{
 				return Objects.equals(OTGWorldOptionsScreen.this.preset, Optional.of(BiomeGeneratorTypeScreens.AMPLIFIED)) ? super.createNarrationMessage().append(". ").append(OTGWorldOptionsScreen.AMPLIFIED_HELP_TEXT) : super.createNarrationMessage();

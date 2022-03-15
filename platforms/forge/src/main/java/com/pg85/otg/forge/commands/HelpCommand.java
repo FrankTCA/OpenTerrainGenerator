@@ -6,9 +6,11 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
@@ -25,15 +27,16 @@ public class HelpCommand extends BaseCommand
 		super("help");
 		this.helpMessage = "Shows help for all OTG commands.";
 		this.usage = "/otg help [command/page]";
-		this.detailedHelp = new String[]
-		{ "[command/page]: The name of the command you want to view detailed help for, or the page number of the help menu you want to display." };
+		this.detailedHelp = new String[] { 
+			"[command/page]: The name of the command you want to view detailed help for, or the page number of the help menu you want to display." 
+		};
 	}
 
 	@Override
 	public void build(LiteralArgumentBuilder<CommandSource> builder)
 	{
 		builder.then(Commands.literal("help").executes(context -> showHelp(context.getSource(), ""))
-				.then(Commands.argument("command", StringArgumentType.word()).suggests(this::suggestHelp).executes(
+				.then(Commands.argument("command", new CommandArgument()).executes(
 						(context -> showHelp(context.getSource(), context.getArgument("command", String.class))))));
 	}
 
@@ -93,10 +96,24 @@ public class HelpCommand extends BaseCommand
 				false);
 	}
 
-	private CompletableFuture<Suggestions> suggestHelp(CommandContext<CommandSource> context,
-			SuggestionsBuilder builder)
+	public static class CommandArgument implements ArgumentType<String>
 	{
-		return ISuggestionProvider.suggest(
-				OTGCommand.getCommands().stream().map(BaseCommand::getName).collect(Collectors.toList()), builder);
+		public static CommandArgument create()
+		{
+			return new CommandArgument();
+		}
+
+		@Override
+		public String parse(StringReader reader) throws CommandSyntaxException
+		{
+			return reader.readString();
+		}
+
+		@Override
+		public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
+		{
+			return ISuggestionProvider.suggest(
+					OTGCommand.getCommands().stream().map(BaseCommand::getName).collect(Collectors.toList()), builder);
+		}
 	}
 }

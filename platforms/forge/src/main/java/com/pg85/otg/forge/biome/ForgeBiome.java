@@ -33,7 +33,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.*;
-import net.minecraft.world.biome.Biome.TemperatureModifier;
 import net.minecraft.world.biome.BiomeGenerationSettings.Builder;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.GenerationStage.Decoration;
@@ -56,10 +55,6 @@ import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.feature.structure.TaigaVillagePools;
 import net.minecraft.world.gen.feature.structure.VillageConfig;
 import net.minecraft.world.gen.surfacebuilders.ConfiguredSurfaceBuilders;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
-import net.minecraftforge.common.world.MobSpawnInfoBuilder;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ForgeBiome implements IBiome
@@ -93,7 +88,7 @@ public class ForgeBiome implements IBiome
 	public static Biome createOTGBiome(boolean isOceanBiome, IWorldConfig worldConfig, IBiomeConfig biomeConfig)
 	{
 		BiomeGenerationSettings.Builder biomeGenerationSettingsBuilder = new BiomeGenerationSettings.Builder();
-
+	
 		// Mob spawning
 		MobSpawnInfo.Builder mobSpawnInfoBuilder = createMobSpawnInfo(biomeConfig);
 
@@ -102,36 +97,6 @@ public class ForgeBiome implements IBiome
 		// TODO: What if there's no grass around spawn?
 		biomeGenerationSettingsBuilder.surfaceBuilder(ConfiguredSurfaceBuilders.GRASS);
 
-<<<<<<< HEAD
-		// Register default carvers, we won't actually use these since we have
-		// our own carvers, but if they're replaced we'll know there are modded carvers.
-		DefaultBiomeFeatures.addDefaultCarvers(biomeGenerationSettingsBuilder);
-
-		// Register any Registry() resources to the biome, to be handled by MC.
-		for (ConfigFunction<IBiomeConfig> res : ((BiomeConfig)biomeConfig).getResourceQueue())
-		{
-			if (res instanceof RegistryResource)
-			{
-				RegistryResource registryResource = (RegistryResource)res;
-				Decoration stage = GenerationStage.Decoration.valueOf(registryResource.getDecorationStage());
-				ConfiguredFeature<?, ?> registry = WorldGenRegistries.CONFIGURED_FEATURE.get(new ResourceLocation(registryResource.getFeatureKey()));
-				if(registry != null)
-				{
-					biomeGenerationSettingsBuilder.addFeature(stage, registry);
-				} else {
-					if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.DECORATION))
-					{
-						OTG.getEngine().getLogger().log(LogLevel.ERROR, LogCategory.DECORATION, "Registry() " + registryResource.getFeatureKey() + " could not be found for biomeconfig " + biomeConfig.getName());
-					}
-				}				
-			}
-		}
-=======
-		// * Carvers are handled by OTG
-		
-		// Default structures
-		addVanillaStructures(biomeGenerationSettingsBuilder, worldConfig, biomeConfig);	
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 
 		// Default structures
 		addVanillaStructures(biomeGenerationSettingsBuilder, worldConfig, biomeConfig);
@@ -209,43 +174,21 @@ public class ForgeBiome implements IBiome
 			default:
 				break;
 		}
-		
-		ResourceLocation registryName = new ResourceLocation(biomeConfig.getRegistryKey().toResourceLocationString());
-		Biome.Category category = Biome.Category.byName(biomeConfig.getBiomeCategory());
-		if (category == null)
-		{
-			if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.CONFIGS))
-			{
-				OTG.getEngine().getLogger().log(LogLevel.ERROR, LogCategory.CONFIGS, "Could not parse biome category " + biomeConfig.getBiomeCategory());
-			}
-			category = isOceanBiome ? Biome.Category.OCEAN : Biome.Category.NONE;
-		}
-		Biome.RainType rainType = 
-			biomeConfig.getBiomeWetness() <= 0.0001 ? Biome.RainType.NONE : 
-			biomeConfig.getBiomeTemperature() > Constants.SNOW_AND_ICE_TEMP ? Biome.RainType.RAIN : 
-			Biome.RainType.SNOW
-		;
-
-		// Fire Forge BiomeLoadingEvent to allow other mods to enrich otg biomes with decoration features, structure features and mob spawns.
-		BiomeGenerationSettingsBuilder genBuilder = new BiomeGenerationSettingsBuilder(biomeGenerationSettingsBuilder.build());
-		MobSpawnInfoBuilder spawnBuilder = new MobSpawnInfoBuilder(mobSpawnInfoBuilder.build());
-		BiomeLoadingEvent event1 = new BiomeLoadingEvent(registryName, new Biome.Climate(rainType, safeTemperature, TemperatureModifier.NONE, biomeConfig.getBiomeWetness()), category, biomeConfig.getBiomeHeight(), biomeConfig.getBiomeVolatility(), biomeAmbienceBuilder.build(), genBuilder, spawnBuilder);
-		MinecraftForge.EVENT_BUS.post(event1);
-		BiomeAmbience biomeAmbienceBuilder2 = event1.getEffects();
-		BiomeGenerationSettingsBuilder biomeGenerationSettingsBuilder2 = event1.getGeneration();
-		MobSpawnInfoBuilder mobSpawnInfoBuilder2 = event1.getSpawns();
-		//
 
 		Biome.Builder biomeBuilder = 
 			new Biome.Builder()
-			.precipitation(rainType)
+			.precipitation(
+				biomeConfig.getBiomeWetness() <= 0.0001 ? Biome.RainType.NONE : 
+				biomeConfig.getBiomeTemperature() > Constants.SNOW_AND_ICE_TEMP ? Biome.RainType.RAIN : 
+				Biome.RainType.SNOW
+			)
 			.depth(biomeConfig.getBiomeHeight())
 			.scale(biomeConfig.getBiomeVolatility())
 			.temperature(safeTemperature)
 			.downfall(biomeConfig.getBiomeWetness())
-			.specialEffects(biomeAmbienceBuilder2)
-			.mobSpawnSettings(mobSpawnInfoBuilder2.build())
-			.generationSettings(biomeGenerationSettingsBuilder2.build())
+			.specialEffects(biomeAmbienceBuilder.build())
+			.mobSpawnSettings(mobSpawnInfoBuilder.build())
+			.generationSettings(biomeGenerationSettingsBuilder.build())
 		;
 		
 		if(biomeConfig.useFrozenOceanTemperature())
@@ -253,9 +196,17 @@ public class ForgeBiome implements IBiome
 			biomeBuilder.temperatureAdjustment(Biome.TemperatureModifier.FROZEN);
 		}
 
+		Biome.Category category = Biome.Category.byName(biomeConfig.getBiomeCategory());
 		biomeBuilder.biomeCategory(category != null ? category : isOceanBiome ? Biome.Category.OCEAN : Biome.Category.PLAINS);
+		if (category == null)
+		{
+			if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.CONFIGS))
+			{
+				OTG.getEngine().getLogger().log(LogLevel.ERROR, LogCategory.CONFIGS, "Could not parse biome category " + biomeConfig.getBiomeCategory());
+			}
+		}
 		
-		return biomeBuilder.build().setRegistryName(registryName);
+		return biomeBuilder.build().setRegistryName(new ResourceLocation(biomeConfig.getRegistryKey().toResourceLocationString()));
 	}
 
 	private static MobSpawnInfo.Builder createMobSpawnInfo(IBiomeConfig biomeConfig)

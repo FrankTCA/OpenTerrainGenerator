@@ -70,6 +70,7 @@ public class MapCommand extends BaseCommand
 		return StringUtil.copyPartialMatches(args[1], TYPES, new ArrayList<>());
 	}
 	
+	@SuppressWarnings("resource")
 	private boolean mapBiomes (CommandSender sender, String[] args)
 	{
 		CraftWorld world;

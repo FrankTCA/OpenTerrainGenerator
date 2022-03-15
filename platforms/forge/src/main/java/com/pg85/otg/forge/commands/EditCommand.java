@@ -195,7 +195,6 @@ public class EditCommand extends BaseCommand
 		return 0;
 	}
 
-	protected static StructuredCustomObject getStructuredObject(String objectName, String presetFolderName) throws InvalidConfigException
 	{
 		CustomObject objectToSpawn = ObjectUtils.getObject(objectName, presetFolderName);
 

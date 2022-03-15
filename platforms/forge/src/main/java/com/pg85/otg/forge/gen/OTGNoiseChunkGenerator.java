@@ -1,18 +1,6 @@
 package com.pg85.otg.forge.gen;
 
 import java.nio.file.Path;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import java.util.*;
-import java.util.Map.Entry;
-=======
-import java.util.ArrayList;
-=======
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-import java.util.BitSet;
-import java.util.List;
-import java.util.Random;
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -37,11 +25,6 @@ import com.pg85.otg.gen.OTGChunkDecorator;
 import com.pg85.otg.interfaces.IBiome;
 import com.pg85.otg.interfaces.ICachedBiomeProvider;
 import com.pg85.otg.interfaces.ILayerSource;
-<<<<<<< HEAD
-import com.pg85.otg.interfaces.IMaterialReader;
-import com.pg85.otg.interfaces.IWorldConfig;
-=======
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import com.pg85.otg.presets.Preset;
 import com.pg85.otg.util.ChunkCoordinate;
 import com.pg85.otg.util.gen.ChunkBuffer;
@@ -65,11 +48,6 @@ import net.minecraft.util.math.SectionPos;
 import net.minecraft.world.Blockreader;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-<<<<<<< HEAD
-import net.minecraft.world.biome.BiomeGenerationSettings;
-=======
-import net.minecraft.world.biome.Biome;
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -79,10 +57,6 @@ import net.minecraft.world.gen.DimensionSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.Heightmap.Type;
-<<<<<<< HEAD
-import net.minecraft.world.gen.carver.ConfiguredCarver;
-=======
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.jigsaw.JigsawJunction;
 import net.minecraft.world.gen.feature.jigsaw.JigsawPattern;
@@ -132,7 +106,7 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	private final OTGChunkDecorator chunkDecorator;
 	private final Preset preset;
 	private CustomStructureCache structureCache; // TODO: Move this?
-
+	
 	public OTGNoiseChunkGenerator(BiomeProvider biomeProvider, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
 	{
 		this(OTG.getEngine().getPresetLoader().getDefaultPresetFolderName(), biomeProvider, biomeProvider, seed, dimensionSettingsSupplier);
@@ -145,170 +119,16 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	
 	// TODO: Why are there 2 biome providers, and why does getBiomeProvider() return the second, while we're using the first?
 	// It looks like vanilla just inserts the same biomeprovider twice?
-<<<<<<< HEAD
-	private OTGNoiseChunkGenerator(String presetFolderName, String dimConfigName, BiomeProvider biomeProvider1, BiomeProvider biomeProvider2, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
-=======
-	@SuppressWarnings("deprecation")
-	private OTGNoiseChunkGenerator(String presetFolderName, BiomeProvider biomeProvider1, BiomeProvider biomeProvider2, long seed, Supplier<DimensionSettings> dimensionSettingsSupplier)
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-	{
-		super(biomeProvider1, biomeProvider2, seed, overrideStructureSettings(dimensionSettingsSupplier.get(), presetFolderName));
-
-		if (!(biomeProvider1 instanceof ILayerSource))
-		{
-			throw new RuntimeException("OTG has detected an incompatible biome provider- try using otg:otg as the biome source name");
-		}
-
-<<<<<<< HEAD
-		this.preset = OTG.getEngine().getPresetLoader().getPresetByFolderName(presetFolderName);
-		if(dimConfigName != null && dimConfigName.trim().length() > 0)
-		{
-			this.dimConfigName = dimConfigName;
-			this.dimConfig = DimensionConfig.fromDisk(this.dimConfigName);
-		} else {
-			this.dimConfigName = "";
-			this.dimConfig = null;
-		}	
-=======
-		this.worldSeed = seed;
-		this.preset = OTG.getEngine().getPresetLoader().getPresetByFolderName(presetFolderName);		
-		this.dimensionSettingsSupplier = dimensionSettingsSupplier;		
-		DimensionSettings dimensionsettings = dimensionSettingsSupplier.get();	
-		NoiseSettings noisesettings = dimensionsettings.noiseSettings();
-		this.defaultBlock = dimensionsettings.getDefaultBlock();
-		this.defaultFluid = dimensionsettings.getDefaultFluid();
-		this.random = new SharedSeedRandom(seed);
-		this.surfaceNoise = (INoiseGenerator)(noisesettings.useSimplexSurfaceNoise() ? new PerlinNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0)) : new OctavesNoiseGenerator(this.random, IntStream.rangeClosed(-3, 0)));
-		this.noiseHeight = noisesettings.height();
-
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		this.shadowChunkGenerator = new ShadowChunkGenerator(OTG.getEngine().getPluginConfig().getMaxWorkerThreads());
 		this.internalGenerator = new OTGChunkGenerator(this.preset, seed, (ILayerSource) biomeProvider1,((ForgePresetLoader)OTG.getEngine().getPresetLoader()).getGlobalIdMapping(presetFolderName), OTG.getEngine().getLogger());
 		this.chunkDecorator = new OTGChunkDecorator();
 	}
 	
-	private static Supplier<DimensionSettings> overrideStructureSettings(DimensionSettings oldSettings, String presetFolderName)
-	{
-		Preset preset = OTG.getEngine().getPresetLoader().getPresetByFolderName(presetFolderName);
-		IWorldConfig worldConfig = preset.getWorldConfig();
-
-		Builder<Structure<?>, StructureSeparationSettings> separationSettings = ImmutableMap.<Structure<?>, StructureSeparationSettings>builder();
-		if(worldConfig.getVillagesEnabled())
-		{
-			separationSettings.put(Structure.VILLAGE, new StructureSeparationSettings(worldConfig.getVillageSpacing(), worldConfig.getVillageSeparation(), 10387312));
-		}
-		if(worldConfig.getRareBuildingsEnabled())
-		{
-			separationSettings.put(Structure.DESERT_PYRAMID, new StructureSeparationSettings(worldConfig.getDesertPyramidSpacing(), worldConfig.getDesertPyramidSeparation(), 14357617));
-		}
-		if(worldConfig.getRareBuildingsEnabled())
-		{
-			separationSettings.put(Structure.IGLOO, new StructureSeparationSettings(worldConfig.getIglooSpacing(), worldConfig.getIglooSeparation(), 14357618));
-		}
-		if(worldConfig.getRareBuildingsEnabled())
-		{
-			separationSettings.put(Structure.JUNGLE_TEMPLE, new StructureSeparationSettings(worldConfig.getJungleTempleSpacing(), worldConfig.getJungleTempleSeparation(), 14357619));
-		}
-		if(worldConfig.getRareBuildingsEnabled())
-		{
-			separationSettings.put(Structure.SWAMP_HUT, new StructureSeparationSettings(worldConfig.getSwampHutSpacing(), worldConfig.getSwampHutSeparation(), 14357620));
-		}
-		if(worldConfig.getPillagerOutpostsEnabled())
-		{
-			separationSettings.put(Structure.PILLAGER_OUTPOST, new StructureSeparationSettings(worldConfig.getPillagerOutpostSpacing(), worldConfig.getPillagerOutpostSeparation(), 165745296));
-		}
-		if(worldConfig.getStrongholdsEnabled())
-		{
-			separationSettings.put(Structure.STRONGHOLD, new StructureSeparationSettings(worldConfig.getStrongholdSpacing(), worldConfig.getStrongholdSeparation(), 0));
-		}
-		if(worldConfig.getOceanMonumentsEnabled())
-		{
-			separationSettings.put(Structure.OCEAN_MONUMENT, new StructureSeparationSettings(worldConfig.getOceanMonumentSpacing(), worldConfig.getOceanMonumentSeparation(), 10387313));
-		}
-		if(worldConfig.getEndCitiesEnabled())
-		{
-			separationSettings.put(Structure.END_CITY, new StructureSeparationSettings(worldConfig.getEndCitySpacing(), worldConfig.getEndCitySeparation(), 10387313));
-		}
-		if(worldConfig.getWoodlandMansionsEnabled())
-		{
-			separationSettings.put(Structure.WOODLAND_MANSION, new StructureSeparationSettings(worldConfig.getWoodlandMansionSpacing(), worldConfig.getWoodlandMansionSeparation(), 10387319));
-		}
-		if(worldConfig.getBuriedTreasureEnabled())
-		{
-			separationSettings.put(Structure.BURIED_TREASURE, new StructureSeparationSettings(worldConfig.getBuriedTreasureSpacing(), worldConfig.getBuriedTreasureSeparation(), 0));
-		}
-		if(worldConfig.getMineshaftsEnabled())
-		{
-			separationSettings.put(Structure.MINESHAFT, new StructureSeparationSettings(worldConfig.getMineshaftSpacing(), worldConfig.getMineshaftSeparation(), 0));
-		}
-		if(worldConfig.getRuinedPortalsEnabled())
-		{
-			separationSettings.put(Structure.RUINED_PORTAL, new StructureSeparationSettings(worldConfig.getRuinedPortalSpacing(), worldConfig.getRuinedPortalSeparation(), 34222645));
-		}
-		if(worldConfig.getShipWrecksEnabled())
-		{
-			separationSettings.put(Structure.SHIPWRECK, new StructureSeparationSettings(worldConfig.getShipwreckSpacing(), worldConfig.getShipwreckSeparation(), 165745295));
-		}
-		if(worldConfig.getOceanRuinsEnabled())
-		{
-			separationSettings.put(Structure.OCEAN_RUIN, new StructureSeparationSettings(worldConfig.getOceanRuinSpacing(), worldConfig.getOceanRuinSeparation(), 14357621));
-		}
-		if(worldConfig.getBastionRemnantsEnabled())
-		{
-			separationSettings.put(Structure.BASTION_REMNANT, new StructureSeparationSettings(worldConfig.getBastionRemnantSpacing(), worldConfig.getBastionRemnantSeparation(), 30084232));
-		}
-		if(worldConfig.getNetherFortressesEnabled())
-		{
-			separationSettings.put(Structure.NETHER_BRIDGE, new StructureSeparationSettings(worldConfig.getNetherFortressSpacing(), worldConfig.getNetherFortressSeparation(), 30084232));
-		}
-		if(worldConfig.getNetherFossilsEnabled())
-		{
-			separationSettings.put(Structure.NETHER_FOSSIL, new StructureSeparationSettings(worldConfig.getNetherFossilSpacing(), worldConfig.getNetherFossilSeparation(), 14357921));
-		}
-		separationSettings.putAll(
-			oldSettings.structureSettings().structureConfig().entrySet().stream().filter(a -> 
-				a.getKey() != Structure.VILLAGE &&
-				a.getKey() != Structure.DESERT_PYRAMID &&
-				a.getKey() != Structure.IGLOO &&
-				a.getKey() != Structure.JUNGLE_TEMPLE &&
-				a.getKey() != Structure.SWAMP_HUT &&
-				a.getKey() != Structure.PILLAGER_OUTPOST &&
-				a.getKey() != Structure.STRONGHOLD &&
-				a.getKey() != Structure.OCEAN_MONUMENT &&
-				a.getKey() != Structure.END_CITY &&
-				a.getKey() != Structure.WOODLAND_MANSION &&
-				a.getKey() != Structure.BURIED_TREASURE &&
-				a.getKey() != Structure.MINESHAFT &&
-				a.getKey() != Structure.RUINED_PORTAL &&
-				a.getKey() != Structure.SHIPWRECK &&
-				a.getKey() != Structure.OCEAN_RUIN &&
-				a.getKey() != Structure.BASTION_REMNANT &&
-				a.getKey() != Structure.NETHER_BRIDGE &&
-				a.getKey() != Structure.NETHER_FOSSIL
-			).collect(Collectors.toMap(Entry::getKey, Entry::getValue))
-		);
-
-		DimensionStructuresSettings newSettings = new DimensionStructuresSettings(
-			worldConfig.getStrongholdsEnabled() ? Optional.of(
-				new StructureSpreadSettings(
-					worldConfig.getStrongHoldDistance(),
-					worldConfig.getStrongHoldSpread(),
-					worldConfig.getStrongHoldCount()
-				)
-			) : Optional.empty(),
-			Maps.newHashMap(separationSettings.build())
-		);
-
-		oldSettings.structureSettings = newSettings;
-		
-		return () -> { return oldSettings; };
-	}
-
 	public ICachedBiomeProvider getCachedBiomeProvider()
 	{
 		return this.internalGenerator.getCachedBiomeProvider();
 	}
-
+	
 	public void saveStructureCache()
 	{
 		if (this.chunkDecorator.getIsSaveRequired() && this.structureCache != null)
@@ -322,143 +142,10 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		return this.preset;
 	}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-	// TODO: Modpack config specific, move this?
-
-	public boolean getCavesEnabled()
-	{
-		processDimensionConfigData();
-		return this.cavesEnabled;
-	}
-
-	public boolean getRavinesEnabled()
-	{
-		processDimensionConfigData();
-		return this.ravinesEnabled;
-	}
-
-	public String getPortalColor()
-	{
-		processDimensionConfigData();
-		return this.portalColor;
-	}
-
-	public String getPortalMob()
-	{
-		processDimensionConfigData();
-		return this.portalMob;
-	}
-
-	public String getPortalIgnitionSource()
-	{
-		processDimensionConfigData();
-		return this.portalIgnitionSource;
-	}
-		
-	public List<LocalMaterialData> getPortalBlocks()
-	{
-		processDimensionConfigData();
-		return this.portalBlocks;
-	}
-
-	private void processDimensionConfigData()
-	{
-		if(!this.portalDataProcessed)
-		{
-			this.portalDataProcessed = true;
-			if(this.dimConfig != null)
-			{
-				if(this.dimConfig.Overworld != null && this.dimConfig.Overworld.PresetFolderName != null && this.preset.getFolderName().equals(this.dimConfig.Overworld.PresetFolderName))
-				{
-					this.cavesEnabled = this.dimConfig.Overworld.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
-					this.ravinesEnabled = this.dimConfig.Overworld.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
-				}
-				else if(this.dimConfig.Nether != null && this.dimConfig.Nether.PresetFolderName != null && this.preset.getFolderName().equals(this.dimConfig.Nether.PresetFolderName))
-				{
-					this.cavesEnabled = this.dimConfig.Nether.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
-					this.ravinesEnabled = this.dimConfig.Nether.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
-				}
-				else if(this.dimConfig.End != null && this.dimConfig.End.PresetFolderName != null && this.preset.getFolderName().equals(this.dimConfig.End.PresetFolderName))
-				{
-					this.cavesEnabled = this.dimConfig.End.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
-					this.ravinesEnabled = this.dimConfig.End.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
-				} else {
-					IMaterialReader materialReader = OTG.getEngine().getPresetLoader().getMaterialReader(this.preset.getFolderName());
-					for(OTGDimension dim : this.dimConfig.Dimensions)
-					{
-						if(dim.PresetFolderName != null && this.preset.getFolderName().equals(dim.PresetFolderName))
-						{
-							if(dim.PortalBlocks != null && dim.PortalBlocks.trim().length() > 0)
-							{
-								String[] portalBlocks = dim.PortalBlocks.split(",");
-								ArrayList<LocalMaterialData> materials = new ArrayList<LocalMaterialData>();					
-								for(String materialString : portalBlocks)
-								{
-									LocalMaterialData material = null;
-									try {
-										material = materialReader.readMaterial(materialString.trim());
-									} catch (InvalidConfigException e) { }
-									if(material != null)
-									{
-										materials.add(material);
-									}
-								}
-								this.portalBlocks = materials;
-							}					
-							this.portalColor = dim.PortalColor;
-							this.portalMob = dim.PortalMob;
-							this.portalIgnitionSource = dim.PortalIgnitionSource;
-							this.cavesEnabled = dim.CarversEnabled && this.preset.getWorldConfig().getCavesEnabled();
-							this.ravinesEnabled = dim.CarversEnabled && this.preset.getWorldConfig().getRavinesEnabled();
-							break;
-						}
-					}
-				}
-			} else {
-				this.cavesEnabled = this.preset.getWorldConfig().getCavesEnabled();
-				this.ravinesEnabled = this.preset.getWorldConfig().getRavinesEnabled();
-			}
-			if(this.portalBlocks == null || this.portalBlocks.size() == 0)
-			{
-				this.portalBlocks = this.preset.getWorldConfig().getPortalBlocks(); 
-			}
-			if(this.portalColor == null)
-			{
-				this.portalColor = this.preset.getWorldConfig().getPortalColor();	
-			}
-			if(this.portalMob == null)
-			{
-				this.portalMob = this.preset.getWorldConfig().getPortalMob();
-			}
-			if(this.portalIgnitionSource == null)
-			{
-				this.portalIgnitionSource = this.preset.getWorldConfig().getPortalIgnitionSource();
-			}
-		}
-	}
-	
-	//
-	
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-=======
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public ChunkGenerator withSeed(long seed)
 	{
-<<<<<<< HEAD
-		return new OTGNoiseChunkGenerator(this.preset.getFolderName(), this.dimConfigName, this.biomeSource.withSeed(seed), seed, this.settings);
-=======
-		return new OTGNoiseChunkGenerator(this.preset.getFolderName(), this.biomeSource.withSeed(seed), seed, this.dimensionSettingsSupplier);
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-	}
-
-	@Override
-	public int getSeaLevel()
-	{
-		return this.preset.getWorldConfig().getWaterLevelMax();
 	}
 
 	// Base terrain gen
@@ -480,7 +167,7 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		if (cachedChunk != null)
 		{
 			this.shadowChunkGenerator.fillWorldGenChunkFromShadowChunk(chunk, cachedChunk);
-		} else {			
+		} else {
 			// Setup jigsaw data
 			ObjectList<JigsawStructureData> structures = new ObjectArrayList<>(10);
 			ObjectList<JigsawStructureData> junctions = new ObjectArrayList<>(32);
@@ -580,97 +267,8 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 
 	@Override
 	public void applyCarvers(long seed, BiomeManager biomeManager, IChunk chunk, GenerationStage.Carving stage)
-<<<<<<< HEAD
-	{		
-		// OTG has its own caves and canyons carvers. We register default carvers to OTG biomes,
-		// then check if they have been overridden by mods before using our own carvers.
-		if (stage == GenerationStage.Carving.AIR)
-		{
-			ForgeBiome biome = (ForgeBiome)this.getCachedBiomeProvider().getNoiseBiome(chunk.getPos().x << 2, chunk.getPos().z << 2);
-			BiomeGenerationSettings biomegenerationsettings = biome.getBiomeBase().getGenerationSettings();
-			List<Supplier<ConfiguredCarver<?>>> list = biomegenerationsettings.getCarvers(stage);
-
-			// Only use OTG carvers when default mc carvers are found
-			List<String> defaultCaves = Arrays.asList("minecraft:cave", "minecraft:underwater_cave", "minecraft:nether_cave");			
-			boolean cavesEnabled = this.preset.getWorldConfig().getCavesEnabled() && list.stream().anyMatch(
-				a -> defaultCaves.stream().anyMatch(
-					b -> b.equals(
-						ForgeRegistries.WORLD_CARVERS.getKey(a.get().worldCarver).toString()
-					)
-				)
-			);
-			List<String> defaultRavines = Arrays.asList("minecraft:canyon", "minecraft:underwater_canyon");
-			boolean ravinesEnabled = this.preset.getWorldConfig().getRavinesEnabled() && list.stream().anyMatch(
-				a -> defaultRavines.stream().anyMatch(
-					b -> b.equals(
-						ForgeRegistries.WORLD_CARVERS.getKey(a.get().worldCarver).toString()
-					)
-				)
-			);
-			if(cavesEnabled || ravinesEnabled)
-			{
-				ChunkPrimer protoChunk = (ChunkPrimer) chunk;
-				ChunkBuffer chunkBuffer = new ForgeChunkBuffer(protoChunk);
-				BitSet carvingMask = protoChunk.getOrCreateCarvingMask(stage);
-				this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask, cavesEnabled, ravinesEnabled);
-			}
-=======
-	{
-		if (stage == GenerationStage.Carving.AIR)
-		{
-			ChunkPrimer protoChunk = (ChunkPrimer) chunk;
-			ChunkBuffer chunkBuffer = new ForgeChunkBuffer(protoChunk);
-			BitSet carvingMask = protoChunk.getOrCreateCarvingMask(stage);
-<<<<<<< HEAD
-			this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask, this.getCavesEnabled(), this.getRavinesEnabled());
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-=======
-			this.internalGenerator.carve(chunkBuffer, seed, protoChunk.getPos().x, protoChunk.getPos().z, carvingMask);
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-		}
-		super.applyCarvers(seed, biomeManager, chunk, stage);
 	}
 
-<<<<<<< HEAD
-	public void applyNonOTGCarvers(long seed, BiomeManager biomeManager, IChunk chunk, GenerationStage.Carving stage)
-	{
-		BiomeManager biomemanager = biomeManager.withDifferentSource(this.biomeSource);
-		SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
-		ChunkPos chunkpos = chunk.getPos();
-		int j = chunkpos.x;
-		int k = chunkpos.z;
-		ForgeBiome biome = (ForgeBiome)this.getCachedBiomeProvider().getNoiseBiome(chunk.getPos().x << 2, chunk.getPos().z << 2);
-		BiomeGenerationSettings biomegenerationsettings = biome.getBiomeBase().getGenerationSettings();
-		BitSet bitset = ((ChunkPrimer)chunk).getOrCreateCarvingMask(stage);
-
-		List<String> defaultCavesAndRavines = Arrays.asList("minecraft:cave", "minecraft:underwater_cave", "minecraft:nether_cave", "minecraft:canyon", "minecraft:underwater_canyon");					
-		for(int l = j - 8; l <= j + 8; ++l)
-		{
-			for(int i1 = k - 8; i1 <= k + 8; ++i1)
-			{
-				List<Supplier<ConfiguredCarver<?>>> list = biomegenerationsettings.getCarvers(stage);
-				ListIterator<Supplier<ConfiguredCarver<?>>> listiterator = list.listIterator();
-				while(listiterator.hasNext())
-				{
-					int j1 = listiterator.nextIndex();
-					ConfiguredCarver<?> configuredcarver = listiterator.next().get();
-					String carverRegistryName = ForgeRegistries.WORLD_CARVERS.getKey(configuredcarver.worldCarver).toString();
-					// OTG uses its own caves and canyon carvers, ignore the default ones.
-					if(defaultCavesAndRavines.stream().noneMatch(a -> a.equals(carverRegistryName)))
-					{
-						sharedseedrandom.setLargeFeatureSeed(seed + (long)j1, l, i1);
-						if (configuredcarver.isStartChunk(sharedseedrandom, l, i1))
-						{
-							configuredcarver.carve(chunk, biomemanager::getBiome, sharedseedrandom, this.getSeaLevel(), l, i1, j, k, bitset);
-						}
-					}
-				}
-			}
-		}
-	}
-
-=======
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 	// Decoration
 
 	// Does decoration for a given pos/chunk
@@ -690,32 +288,13 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 		int worldZ = worldGenRegion.getCenterZ() * Constants.CHUNK_SIZE;
 		BlockPos blockpos = new BlockPos(worldX, 0, worldZ);
 		SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
-		long decorationSeed = sharedseedrandom.setDecorationSeed(worldGenRegion.getSeed(), worldX, worldZ);	
-		//
 
 		ChunkCoordinate chunkBeingDecorated = ChunkCoordinate.fromBlockCoords(worldX, worldZ);
-<<<<<<< HEAD
-		ForgeWorldGenRegion forgeWorldGenRegion = new ForgeWorldGenRegion(this.preset.getFolderName(), this.preset.getWorldConfig(), worldGenRegion, this);
-=======
-		ForgeWorldGenRegion forgeWorldGenRegion = new ForgeWorldGenRegion(this.preset.getFolderName(), this.preset.getWorldConfig(), worldGenRegion, this);		
-		IBiome biome = this.internalGenerator.getCachedBiomeProvider().getNoiseBiome((worldGenRegion.getCenterX() << 2) + 2, (worldGenRegion.getCenterZ() << 2) + 2);
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 		// World save folder name may not be identical to level name, fetch it.
 		Path worldSaveFolder = worldGenRegion.getLevel().getServer().getWorldPath(FolderName.PLAYER_DATA_DIR).getParent();
 		try
 		{
 			// TODO: Snow is handled per chunk, so this may cause some artifacts on biome borders.
-<<<<<<< HEAD
-			if(
-				!biome.getBiomeConfig().getIsTemplateForBiome() ||
-				!biome1.getBiomeConfig().getIsTemplateForBiome() ||
-				!biome2.getBiomeConfig().getIsTemplateForBiome() ||
-				!biome3.getBiomeConfig().getIsTemplateForBiome() ||				
-				!biome4.getBiomeConfig().getIsTemplateForBiome()
-			)
-=======
-			if(!biome.getBiomeConfig().getTemplateForBiome())
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 			{
 				this.chunkDecorator.doSnowAndIce(forgeWorldGenRegion, chunkBeingDecorated);
 			}
@@ -859,89 +438,4 @@ public final class OTGNoiseChunkGenerator extends NoiseChunkGenerator
 	{
 		return this.shadowChunkGenerator.getChunkWithoutLoadingOrCaching(this.internalGenerator, this.preset.getWorldConfig().getWorldHeightCap(), random, chunkCoord);
 	}
-<<<<<<< HEAD
-	
-	// Modpack config
-	// TODO: Move this?
-
-	public String getPortalColor()
-	{
-		processDimensionConfigData();
-		return this.portalColor;
-	}
-
-	public String getPortalMob()
-	{
-		processDimensionConfigData();
-		return this.portalMob;
-	}
-
-	public String getPortalIgnitionSource()
-	{
-		processDimensionConfigData();
-		return this.portalIgnitionSource;
-	}
-		
-	public List<LocalMaterialData> getPortalBlocks()
-	{
-		processDimensionConfigData();
-		return this.portalBlocks;
-	}
-
-	private void processDimensionConfigData()
-	{
-		if(!this.portalDataProcessed)
-		{
-			this.portalDataProcessed = true;
-			if(this.dimConfig != null)
-			{
-				IMaterialReader materialReader = OTG.getEngine().getPresetLoader().getMaterialReader(this.preset.getFolderName());
-				for(OTGDimension dim : this.dimConfig.Dimensions)
-				{
-					if(dim.PresetFolderName != null && this.preset.getFolderName().equals(dim.PresetFolderName))
-					{
-						if(dim.PortalBlocks != null && dim.PortalBlocks.trim().length() > 0)
-						{
-							String[] portalBlocks = dim.PortalBlocks.split(",");
-							ArrayList<LocalMaterialData> materials = new ArrayList<LocalMaterialData>();					
-							for(String materialString : portalBlocks)
-							{
-								LocalMaterialData material = null;
-								try {
-									material = materialReader.readMaterial(materialString.trim());
-								} catch (InvalidConfigException e) { }
-								if(material != null)
-								{
-									materials.add(material);
-								}
-							}
-							this.portalBlocks = materials;
-						}					
-						this.portalColor = dim.PortalColor;
-						this.portalMob = dim.PortalMob;
-						this.portalIgnitionSource = dim.PortalIgnitionSource;
-						break;
-					}
-				}
-			}
-			if(this.portalBlocks == null || this.portalBlocks.size() == 0)
-			{
-				this.portalBlocks = this.preset.getWorldConfig().getPortalBlocks(); 
-			}
-			if(this.portalColor == null)
-			{
-				this.portalColor = this.preset.getWorldConfig().getPortalColor();	
-			}
-			if(this.portalMob == null)
-			{
-				this.portalMob = this.preset.getWorldConfig().getPortalMob();
-			}
-			if(this.portalIgnitionSource == null)
-			{
-				this.portalIgnitionSource = this.preset.getWorldConfig().getPortalIgnitionSource();
-			}
-		}
-	}
-=======
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 }

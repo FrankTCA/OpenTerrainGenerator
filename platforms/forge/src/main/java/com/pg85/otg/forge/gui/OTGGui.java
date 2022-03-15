@@ -53,19 +53,11 @@ public class OTGGui
 	{
 		protected ChunkGenerator generator(Registry<Biome> biomes, Registry<DimensionSettings> dimensionSettings, long seed)
 		{
-			// Called when selecting the OTG world type in the world creation gui.
-			currentSelection = DimensionConfig.createDefaultConfig();
-			if(!OTG.getEngine().getPresetLoader().getAllPresets().isEmpty())
-			{
-				currentSelection.Overworld = new OTGOverWorld(OTG.getEngine().getPresetLoader().getDefaultPresetFolderName(), seed, null, null);
-				return new OTGNoiseChunkGenerator(new OTGBiomeProvider(OTG.getEngine().getPresetLoader().getDefaultPresetFolderName(), seed, false, false, biomes), seed, () -> dimensionSettings.getOrThrow(DimensionSettings.OVERWORLD));
-			} else {
 				// If no presets are installed, return the default chunkgenerator / biomeprovider
 				return new NoiseChunkGenerator(new OverworldBiomeProvider(seed, false, false, biomes), seed, () ->
 				{
 					return dimensionSettings.getOrThrow(DimensionSettings.OVERWORLD);
 				});
-			}
 		}
 	};
 
