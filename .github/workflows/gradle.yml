@@ -30,6 +30,6 @@ jobs:
       with:
         arguments: createReleaseJar
     - uses: actions/upload-artifact@v2
-      with:
-        name: OpenTerrainGenerator
-        path: build/releases
+        with:
+        name: Package
+        path: build/libs
