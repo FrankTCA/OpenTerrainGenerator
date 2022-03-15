@@ -2,7 +2,6 @@ package com.pg85.otg.spigot.events;
 
 import com.pg85.otg.OTG;
 import com.pg85.otg.interfaces.ILogger;
-import com.pg85.otg.spigot.gen.OTGSpigotChunkGen;
 import com.pg85.otg.util.logging.LogCategory;
 import com.pg85.otg.util.logging.LogLevel;
 import org.bukkit.Bukkit;
@@ -42,7 +41,7 @@ public class OTGHandler implements Listener
 	public void onWorldLoaded(WorldLoadEvent evt) {
 		World world = evt.getWorld();
 		File WORLD_PRELOADED_FILE = new File(world.getWorldFolder() + "/WORLD_PRELOADED");
-		if (!WORLD_PRELOADED_FILE.exists() && world.getGenerator() instanceof OTGSpigotChunkGen) {
+		if (!WORLD_PRELOADED_FILE.exists()) {
 			Location spawn = world.getSpawnLocation();
 			int Y;
 			for (Y = world.getMaxHeight()-1; world.getBlockAt(spawn.getBlockX(), Y, spawn.getBlockZ()).getType() == Material.AIR; Y--);
