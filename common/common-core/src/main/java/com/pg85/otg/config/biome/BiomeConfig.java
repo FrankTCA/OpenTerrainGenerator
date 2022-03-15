@@ -124,8 +124,6 @@ public class BiomeConfig extends BiomeConfigBase
 		super(biomeName);
 	}
 
-	private String presetFolderName;
-
 	public BiomeConfig(
 		String biomeName, BiomeConfigStub biomeConfigStub, Path presetFolder, SettingsMap settings, 
 		IWorldConfig worldConfig, String presetShortName, int presetMajorVersion, 
@@ -134,7 +132,6 @@ public class BiomeConfig extends BiomeConfigBase
 	{
 		super(biomeName);
 		this.setRegistryKey(new OTGBiomeResourceLocation(presetFolder, presetShortName, presetMajorVersion, biomeName));
-		presetFolderName = presetFolder.getFileName().toString();
 
 		// Mob inheritance
 		// Mob spawning data was already loaded seperately before the rest of the
