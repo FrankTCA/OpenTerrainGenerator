@@ -263,10 +263,8 @@ public class BiomeLayerData
 
 		this.biomeColorMap = biomeColorMap;
 		this.riverBiomes = new int[biomes.length];
-		for(int i = 0; i < biomes.length; i++)
+		for(IBiome biome : biomes)
 		{
-			List<Integer> ids = biomeIdsByName.getOrDefault(biomes[i].getBiomeConfig().getRiverBiome(), null);
-			this.riverBiomes[i] = ids == null ? -1 : ids.get(0);
 		}
 	}
 }

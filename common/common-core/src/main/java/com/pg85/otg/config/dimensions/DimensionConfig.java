@@ -28,9 +28,7 @@ public class DimensionConfig
 	public OTGDimension Nether;
 	public OTGDimension End;
 	public List<OTGDimension> Dimensions = new ArrayList<>();
-	public Settings Settings;
-	public GameRules GameRules;
-	
+
 	// Parameterless constructor for deserialisation
 	public DimensionConfig() { }
 	
@@ -54,29 +52,27 @@ public class DimensionConfig
 		if(dimensionConfig.exists())
 		{
 			DimensionConfig dimConfig = new DimensionConfig();
-			String content = "";
-			try
-			{
-				content = new String(Files.readAllBytes(dimensionConfig.toPath()));
-			}
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-			DimensionConfig loadedConfig = fromYamlString(content);
-			if(loadedConfig != null)
-			{
-				dimConfig.isModpackConfig = true;
-				dimConfig.Version = loadedConfig.Version;
-				dimConfig.ModpackName = loadedConfig.ModpackName;
-				dimConfig.Overworld = loadedConfig.Overworld;
-				dimConfig.Nether = loadedConfig.Nether;
-				dimConfig.End = loadedConfig.End;
-				dimConfig.Dimensions = loadedConfig.Dimensions;
-				dimConfig.GameRules = loadedConfig.GameRules;
-				dimConfig.Settings = loadedConfig.Settings;
-				return dimConfig;
-			}
+	        String content = "";
+	        try
+	        {
+	            content = new String(Files.readAllBytes(dimensionConfig.toPath()));
+	        }
+	        catch (IOException e) 
+	        {
+	            e.printStackTrace();
+	        }
+	        DimensionConfig loadedConfig = fromYamlString(content);
+	        if(loadedConfig != null)
+	        {
+		        dimConfig.isModpackConfig = true;
+		        dimConfig.Version = loadedConfig.Version;
+		        dimConfig.ModpackName = loadedConfig.ModpackName;
+		        dimConfig.Overworld = loadedConfig.Overworld;
+		        dimConfig.Nether = loadedConfig.Nether;
+		        dimConfig.End = loadedConfig.End;
+		        dimConfig.Dimensions = loadedConfig.Dimensions;
+		        return dimConfig;
+	        }	        
 		}
 		return null;
 	}
@@ -175,95 +171,5 @@ public class DimensionConfig
 			otgDimension.PortalIgnitionSource = this.PortalIgnitionSource;
 			return otgDimension;
 		}
-	}
-
-	public class Settings
-	{
-		public boolean GenerateStructures;
-		public boolean BonusChest;
-		
-		public Settings() {}
-		
-		public Settings clone()
-		{
-			Settings settings = new Settings();
-			settings.GenerateStructures = this.GenerateStructures;
-			settings.BonusChest = this.BonusChest;
-			return settings;
-		}
-	}
-	
-	public class GameRules
-	{
-		public boolean DoFireTick;
-		public boolean MobGriefing;
-		public boolean KeepInventory;
-		public boolean DoMobSpawning;
-		public boolean DoMobLoot;
-		public boolean DoTileDrops;
-		public boolean DoEntityDrops;
-		public boolean CommandBlockOutput;
-		public boolean NaturalRegeneration;
-		public boolean DoDaylightCycle;
-		public boolean LogAdminCommands;
-		public boolean ShowDeathMessages;
-		public int RandomTickSpeed;
-		public boolean SendCommandFeedback;
-		public boolean SpectatorsGenerateChunks;
-		public int SpawnRadius;
-		public boolean DisableElytraMovementCheck;
-		public int MaxEntityCramming;
-		public boolean DoWeatherCycle;
-		public boolean DoLimitedCrafting;
-		public int MaxCommandChainLength;
-		public boolean AnnounceAdvancements;
-		public boolean DisableRaids;
-		public boolean DoInsomnia;
-		public boolean DrowningDamage;
-		public boolean FallDamage;
-		public boolean FireDamage;
-		public boolean DoPatrolSpawning;
-		public boolean DoTraderSpawning;
-		public boolean ForgiveDeadPlayers;
-		public boolean UniversalAnger;
-		
-		public GameRules() {}
-		
-		public GameRules clone()
-		{
-			GameRules gameRules = new GameRules();
-			gameRules.DoFireTick = this.DoFireTick;
-			gameRules.MobGriefing = this.MobGriefing;
-			gameRules.KeepInventory = this.KeepInventory;
-			gameRules.DoMobSpawning = this.DoMobSpawning;
-			gameRules.DoMobLoot = this.DoMobLoot;
-			gameRules.DoTileDrops = this.DoTileDrops;
-			gameRules.DoEntityDrops = this.DoEntityDrops;
-			gameRules.CommandBlockOutput = this.CommandBlockOutput;
-			gameRules.NaturalRegeneration = this.NaturalRegeneration;
-			gameRules.DoDaylightCycle = this.DoDaylightCycle;
-			gameRules.LogAdminCommands = this.LogAdminCommands;
-			gameRules.ShowDeathMessages = this.ShowDeathMessages;
-			gameRules.RandomTickSpeed = this.RandomTickSpeed;
-			gameRules.SendCommandFeedback = this.SendCommandFeedback;
-			gameRules.SpectatorsGenerateChunks = this.SpectatorsGenerateChunks;
-			gameRules.SpawnRadius = this.SpawnRadius;
-			gameRules.DisableElytraMovementCheck = this.DisableElytraMovementCheck;
-			gameRules.MaxEntityCramming = this.MaxEntityCramming;
-			gameRules.DoWeatherCycle = this.DoWeatherCycle;
-			gameRules.DoLimitedCrafting = this.DoLimitedCrafting;
-			gameRules.MaxCommandChainLength = this.MaxCommandChainLength;
-			gameRules.AnnounceAdvancements = this.AnnounceAdvancements;
-			gameRules.DisableRaids = this.DisableRaids;
-			gameRules.DoInsomnia = this.DoInsomnia;
-			gameRules.DrowningDamage = this.DrowningDamage;
-			gameRules.FallDamage = this.FallDamage;
-			gameRules.FireDamage = this.FireDamage;
-			gameRules.DoPatrolSpawning = this.DoPatrolSpawning;
-			gameRules.DoTraderSpawning = this.DoTraderSpawning;
-			gameRules.ForgiveDeadPlayers = this.ForgiveDeadPlayers;
-			gameRules.UniversalAnger = this.UniversalAnger;
-			return gameRules;
-		}				
 	}
 }

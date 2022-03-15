@@ -33,12 +33,8 @@ public class BiomeData
 	
 	public void init(Map<String, List<Integer>> worldBiomes)
 	{
-		// Note: For template biomes targeting multiple biomes this won't work, 
-		// since worldBiomes only contains one id for each biome config name.
 		for(String isleInBiomeName : this.configIsleInBiomes)
 		{
-			List<Integer> isleBiomes = worldBiomes.get(isleInBiomeName);
-			if(isleBiomes != null)
 			{
 				for(Integer isleBiome : isleBiomes)
 				{
@@ -51,8 +47,6 @@ public class BiomeData
 		}
 		for(String borderInBiomeName : this.configBorderInBiomes)
 		{
-			List<Integer> borderBiomes = worldBiomes.get(borderInBiomeName);
-			if(borderBiomes != null)
 			{
 				for(Integer borderBiome : borderBiomes)
 				{
@@ -65,8 +59,6 @@ public class BiomeData
 		}
 		for(String onlyBorderNearBiomeName : this.configOnlyBorderNearBiomes)
 		{
-			List<Integer> onlyBorderNearBiomes = worldBiomes.get(onlyBorderNearBiomeName);
-			if(onlyBorderNearBiomes != null)
 			{
 				for(Integer onlyBorderNearBiome : onlyBorderNearBiomes)
 				{
@@ -79,8 +71,6 @@ public class BiomeData
 		}
 		for(String notBorderNearBiomeName : this.configNotBorderNearBiomes)
 		{
-			List<Integer> notBorderNearBiomes = worldBiomes.get(notBorderNearBiomeName);
-			if(notBorderNearBiomes != null)
 			{
 				for(Integer notBorderNearBiome : notBorderNearBiomes)
 				{

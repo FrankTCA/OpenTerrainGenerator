@@ -178,7 +178,7 @@ public class ForgePresetLoader extends LocalPresetLoader
 		Map<String, IBiomeConfig> biomeConfigsByName = new HashMap<>();
 		
 		// Create registry keys for each biomeconfig, create template 
-		// biome configs for any non-otg biomes targeted via TemplateForBiome.
+		// biome configs for any modded biomes using TemplateForBiome.
 		Map<IBiomeResourceLocation, IBiomeConfig> biomeConfigsByResourceLocation = new LinkedHashMap<>();
 		List<String> blackListedBiomes = worldConfig.getBlackListedBiomes();
 
@@ -188,137 +188,6 @@ public class ForgePresetLoader extends LocalPresetLoader
 		{
 			if(!biomeConfig.getIsTemplateForBiome())
 			{
-				// Normal OTG biome, not a template biome.
-				IBiomeResourceLocation otgLocation = new OTGBiomeResourceLocation(preset.getPresetFolder(), preset.getShortPresetName(), preset.getMajorVersion(), biomeConfig.getName());
-				biomeConfigsByResourceLocation.put(otgLocation, biomeConfig);
-				biomeConfigsByName.put(biomeConfig.getName(), biomeConfig);
-			}
-		}
-		
-		IBiome[] presetIdMapping = new IBiome[biomeConfigsByResourceLocation.entrySet().size()];
-		for(Entry<IBiomeResourceLocation, IBiomeConfig> biomeConfig : biomeConfigsByResourceLocation.entrySet())
-		{
-			boolean isOceanBiome = false;
-			// Biome id 0 is reserved for ocean, used when a land column has 
-			// no biome assigned, which can happen due to biome group rarity.
-			if(biomeConfig.getValue().getName().equals(worldConfig.getDefaultOceanBiome()))
-			{
-				oceanBiomeConfig = biomeConfig.getValue();
-				isOceanBiome = true;
-			}
-
-			int otgBiomeId = isOceanBiome ? 0 : currentId;
-
-			// When using TemplateForBiome, we'll fetch the non-OTG biome from the registry, including any settings registered to it.
-			// For normal biomes we create our own new OTG biome and apply settings from the biome config.
-			ResourceLocation resourceLocation = new ResourceLocation(biomeConfig.getKey().toResourceLocationString());
-			RegistryKey<Biome> registryKey;
-			Biome biome;
-			if(biomeConfig.getValue().getIsTemplateForBiome())
-			{
-				if(refresh)
-				{
-					biome = biomeRegistry.get(resourceLocation);
-					Optional<RegistryKey<Biome>> key = biomeRegistry.getResourceKey(biome);
-					registryKey = key.isPresent() ? key.get() : null;
-				} else {
-					biome = ForgeRegistries.BIOMES.getValue(resourceLocation);
-					// TODO: Can we not fetch an existing key?
-					registryKey = RegistryKey.create(Registry.BIOME_REGISTRY, resourceLocation);
-				}
-			} else {
-				if(!(biomeConfig.getKey() instanceof OTGBiomeResourceLocation))
-				{
-					if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
-					{
-						OTG.getEngine().getLogger().log(LogLevel.ERROR, LogCategory.BIOME_REGISTRY, "Could not process template biomeconfig " + biomeConfig.getValue().getName() + ", did you set TemplateForBiome:true in the BiomeConfig?");
-					}
-					continue;
-				}
-				if(OTG.getEngine().getPluginConfig().getDeveloperModeEnabled())
-				{
-					registryKey = RegistryKey.create(Registry.BIOME_REGISTRY, resourceLocation);					
-					if(registryKey != null)
-					{
-						// For OTG biomes, add Forge biome dictionary tags.
-						biomeConfig.getValue().getBiomeDictTags().forEach(biomeDictId -> {
-							if(biomeDictId != null && biomeDictId.trim().length() > 0)
-							{
-								BiomeDictionary.addTypes(registryKey, BiomeDictionary.Type.getType(biomeDictId.trim()));
-							}
-						});					
-						
-						// For developer-mode, always re-create OTG biomes, to pick up any config changes.
-						// This does break any kind of datapack support we might implement for OTG biomes.
-						biome = ForgeBiome.createOTGBiome(isOceanBiome, preset.getWorldConfig(), biomeConfig.getValue());		
-						if(refresh)
-						{
-							biomeRegistry.registerOrOverride(OptionalInt.empty(), registryKey, biome, Lifecycle.stable());
-						} else {	 			
-							ForgeRegistries.BIOMES.register(biome);
-						}
-					} else {
-						biome = null;
-					}
-				} else {
-					if(refresh)
-					{
-						biome = biomeRegistry.get(resourceLocation);
-						Optional<RegistryKey<Biome>> key = biomeRegistry.getResourceKey(biome);
-						registryKey = key.isPresent() ? key.get() : null;
-					} else {						
-						registryKey = RegistryKey.create(Registry.BIOME_REGISTRY, resourceLocation);
-						if(registryKey != null)
-						{
-							// For OTG biomes, add Forge biome dictionary tags.
-							biomeConfig.getValue().getBiomeDictTags().forEach(biomeDictId -> {
-								if(biomeDictId != null && biomeDictId.trim().length() > 0)
-								{
-									BiomeDictionary.addTypes(registryKey, BiomeDictionary.Type.getType(biomeDictId.trim()));
-								}
-							});
-							
-							biome = ForgeBiome.createOTGBiome(isOceanBiome, preset.getWorldConfig(), biomeConfig.getValue());
-							ForgeRegistries.BIOMES.register(biome);
-						} else {
-							biome = null;
-						}
-					}
-				}
-			}
-			if(biome == null || registryKey == null)
-			{
-				if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
-				{
-					OTG.getEngine().getLogger().log(LogLevel.ERROR, LogCategory.BIOME_REGISTRY, "Could not find biome " + resourceLocation.toString() + " for biomeconfig " + biomeConfig.getValue().getName());
-				}
-				continue;
-			}
-			presetBiomes.add(registryKey);
-			biomeConfig.getValue().setRegistryKey(biomeConfig.getKey());
-			biomeConfig.getValue().setOTGBiomeId(otgBiomeId);
-
-			// Populate our map for syncing
-			OTGClientSyncManager.getSyncedData().put(resourceLocation.toString(), new BiomeSettingSyncWrapper(biomeConfig.getValue()));
-
-			// Ocean temperature mappings. Probably a better way to do this?
-			if (biomeConfig.getValue().getName().equals(worldConfig.getDefaultWarmOceanBiome()))
-			{
-				oceanTemperatures[0] = otgBiomeId;
-			}
-			if (biomeConfig.getValue().getName().equals(worldConfig.getDefaultLukewarmOceanBiome()))
-			{
-				oceanTemperatures[1] = otgBiomeId;
-			}
-			if (biomeConfig.getValue().getName().equals(worldConfig.getDefaultColdOceanBiome()))
-			{
-				oceanTemperatures[2] = otgBiomeId;
-			}
-			if (biomeConfig.getValue().getName().equals(worldConfig.getDefaultFrozenOceanBiome()))
-			{
-				oceanTemperatures[3] = otgBiomeId;
-			}
-
 			IBiome otgBiome = new ForgeBiome(biome, biomeConfig.getValue());
 			if(otgBiomeId >= presetIdMapping.length)
 			{
@@ -789,80 +658,9 @@ public class ForgePresetLoader extends LocalPresetLoader
 			List<String> tagStrings = new ArrayList<>();
 			for(String tagString : templateBiomeTagStrings)
 			{
-<<<<<<< HEAD
-				String tagString2 = tagString.trim().toLowerCase();
-				String[] tagSubStrings = tagString2.split(" ");
-				if(tagSubStrings.length == 1)
-				{
-<<<<<<< HEAD
-					// Handle biome registry names: minecraft:plains
-					if(
-						!tagString2.startsWith(Constants.MOD_LABEL) &&
-						!tagString2.startsWith(Constants.BIOME_CATEGORY_LABEL) &&
-						!tagString2.startsWith(Constants.MOD_BIOME_CATEGORY_LABEL) &&
-						!tagString2.startsWith(Constants.MC_BIOME_CATEGORY_LABEL) &&
-						!tagString2.startsWith(Constants.BIOME_DICT_TAG_LABEL) &&
-						!tagString2.startsWith(Constants.MOD_BIOME_DICT_TAG_LABEL) &&
-						!tagString2.startsWith(Constants.MC_BIOME_DICT_TAG_LABEL) &&
-						!tagString2.startsWith(Constants.MOD_LABEL_EXCLUDE) &&
-						!tagString2.startsWith(Constants.BIOME_CATEGORY_LABEL_EXCLUDE) &&
-						!tagString2.startsWith(Constants.MOD_BIOME_CATEGORY_LABEL_EXCLUDE) &&
-						!tagString2.startsWith(Constants.MC_BIOME_CATEGORY_LABEL_EXCLUDE) &&
-						!tagString2.startsWith(Constants.BIOME_DICT_TAG_LABEL_EXCLUDE) &&
-						!tagString2.startsWith(Constants.MOD_BIOME_DICT_TAG_LABEL_EXCLUDE) &&
-						!tagString2.startsWith(Constants.MC_BIOME_DICT_TAG_LABEL_EXCLUDE)					
-					) {
-						// Add biome, don't care about excludes.
-						// Check for biomeconfig name, if none then use  
-						// resourcelocation to look up template biome config.
-						IBiomeConfig biomeConfig = biomeConfigsByName.get(tagString.trim());
-						if(biomeConfig != null)
-						{
-							if(biomeConfig.getIsTemplateForBiome())
-							{
-								// For template biome configs, fetch all associated biomes and add them.
-								for(Entry<IBiomeResourceLocation, IBiomeConfig> entry : biomeConfigsByResourceLocation.entrySet())
-=======
-					if(!tagString2.startsWith(Constants.LABEL_EXCLUDE))
-=======
-				Set<RegistryKey<Biome>> biomesForTags = new HashSet<>();
-				if(
-					biomeEntry.toLowerCase().startsWith(Constants.BIOME_CATEGORY_LABEL) ||
-					biomeEntry.toLowerCase().startsWith(Constants.MC_BIOME_CATEGORY_LABEL) ||
-					biomeEntry.toLowerCase().startsWith(Constants.BIOME_DICT_TAG_LABEL) ||
-					biomeEntry.toLowerCase().startsWith(Constants.MC_BIOME_DICT_TAG_LABEL)
-				)
-				{					
-					String[] tagStrings = biomeEntry.split(" ");
-					for(String tagString : tagStrings)
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 					{
 						// Handle biome registry names: minecraft:plains
 						if(
-<<<<<<< HEAD
-							!tagString2.startsWith(Constants.MOD_LABEL) &&
-							!tagString2.startsWith(Constants.BIOME_CATEGORY_LABEL) &&
-							!tagString2.startsWith(Constants.MOD_BIOME_CATEGORY_LABEL) &&
-							!tagString2.startsWith(Constants.MC_BIOME_CATEGORY_LABEL) &&
-							!tagString2.startsWith(Constants.BIOME_DICT_TAG_LABEL) &&
-							!tagString2.startsWith(Constants.MOD_BIOME_DICT_TAG_LABEL) &&
-							!tagString2.startsWith(Constants.MC_BIOME_DICT_TAG_LABEL) &&
-							!tagString2.startsWith(Constants.MOD_LABEL_EXCLUDE) &&
-							!tagString2.startsWith(Constants.BIOME_CATEGORY_LABEL_EXCLUDE) &&
-							!tagString2.startsWith(Constants.MOD_BIOME_CATEGORY_LABEL_EXCLUDE) &&
-							!tagString2.startsWith(Constants.MC_BIOME_CATEGORY_LABEL_EXCLUDE) &&
-							!tagString2.startsWith(Constants.BIOME_DICT_TAG_LABEL_EXCLUDE) &&
-							!tagString2.startsWith(Constants.MOD_BIOME_DICT_TAG_LABEL_EXCLUDE) &&
-							!tagString2.startsWith(Constants.MC_BIOME_DICT_TAG_LABEL_EXCLUDE)					
-						) {
-							// Add biome, don't care about excludes.
-							// Check for biomeconfig name, if none then use  
-							// resourcelocation to look up template biome config.
-							IBiomeConfig biomeConfig = biomeConfigsByName.get(tagString.trim());
-							if(biomeConfig != null)
-							{
-								if(biomeConfig.getTemplateForBiome())
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 								{
 									// For temple biome configs, fetch all associated biomes and add them.
 									for(Entry<IBiomeResourceLocation, IBiomeConfig> entry : biomeConfigsByResourceLocation.entrySet())
@@ -877,10 +675,6 @@ public class ForgePresetLoader extends LocalPresetLoader
 												}
 												groupBiomes.put(entry.getKey().toResourceLocationString(), biomeConfig);
 											}
-<<<<<<< HEAD
-											groupBiomes.put(entry.getKey().toResourceLocationString(), entry.getValue());
-=======
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 										}
 									}
 								} else {
@@ -909,37 +703,6 @@ public class ForgePresetLoader extends LocalPresetLoader
 										groupBiomes.put(tagString.trim(), biomeConfig);
 									}
 								}
-<<<<<<< HEAD
-							}
-						} else {
-							if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
-							{
-								OTG.getEngine().getLogger().log(LogLevel.INFO, LogCategory.BIOME_REGISTRY, "No biomeConfig found for entry " + tagString + " in group " + group.getName());
-							}
-						}							
-					}
-					else if(tagString2.startsWith(Constants.MOD_LABEL) && tagSubStrings.length == 1)
-					{
-						allowedMods.add(tagString2.replace(Constants.MOD_LABEL, ""));
-					} else {
-						tagStrings.add(tagString);
-					}
-				} else {
-					IBiomeConfig biomeConfig = biomeConfigsByName.get(tagString.trim().replace(Constants.LABEL_EXCLUDE, ""));
-					if(biomeConfig != null)
-					{
-						if(biomeConfig.getIsTemplateForBiome())
-						{
-							// For template biome configs, fetch all associated biomes and add them.
-							for(Entry<IBiomeResourceLocation, IBiomeConfig> entry : biomeConfigsByResourceLocation.entrySet())
-							{
-								if(entry.getValue().getName().equals(biomeConfig.getName()))
-=======
-							} else {
-								if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
-								{
-									OTG.getEngine().getLogger().log(LogLevel.INFO, LogCategory.BIOME_REGISTRY, "No biomeConfig found for entry " + tagString + " in group " + group.getName());
 								}
 							}							
 						}
@@ -1078,35 +841,6 @@ public class ForgePresetLoader extends LocalPresetLoader
 							{
 								biomesForTags.addAll(
 									ForgeRegistries.BIOMES.getValues().stream()
-<<<<<<< HEAD
-										.filter(biome -> 
-											biome.getBiomeCategory() == category &&
-											!excludedBiomes.contains(biome) &&
-											!excludedCategories.contains(biome.getBiomeCategory()) &&
-											!innerExcludedCategories.contains(biome.getBiomeCategory()) &&
-											excludedTags.stream().allMatch(type -> !BiomeDictionary.hasType(RegistryKey.create(Registry.BIOME_REGISTRY, biome.getRegistryName()), type)) &&
-											!blackListedBiomes.contains(biome.getRegistryName().toString()) &&
-											!biome.getRegistryName().getNamespace().equals(Constants.MOD_ID_SHORT) &&
-											(
-												allowedMods.size() == 0 ||
-												allowedMods.stream().anyMatch(mod -> biome.getRegistryName().getNamespace().equals(mod))
-											) && (
-												excludedMods.size() == 0 ||
-												!excludedMods.stream().anyMatch(mod -> biome.getRegistryName().getNamespace().equals(mod))
-											)
-										).map(
-											b -> RegistryKey.create(Registry.BIOME_REGISTRY, b.getRegistryName())
-										).collect(Collectors.toList())
-=======
-									.filter(
-										a -> a.getBiomeCategory() == category &&
-										!a.getRegistryName().getNamespace().equals(Constants.MOD_ID_SHORT) &&
-										!blackListedBiomes.contains(a.getRegistryName().toString()) &&
-										(tagString.trim().toLowerCase().toLowerCase().startsWith(Constants.MC_BIOME_CATEGORY_LABEL) || !a.getRegistryName().getNamespace().equals("minecraft"))
-									).map(
-										b -> RegistryKey.create(Registry.BIOME_REGISTRY, b.getRegistryName())
-									).collect(Collectors.toList())
->>>>>>> parent of f9a008033 (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 								);
 							} else {
 								if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
@@ -1294,9 +1028,16 @@ public class ForgePresetLoader extends LocalPresetLoader
 						}
 					}
 				} else {
+<<<<<<< HEAD
 					if(OTG.getEngine().getLogger().getLogCategoryEnabled(LogCategory.BIOME_REGISTRY))
 					{
 						OTG.getEngine().getLogger().log(LogLevel.INFO, LogCategory.BIOME_REGISTRY, "No tags or categories found for group " + group.getName() + " with entry " + tagString.replace("minecraft:", "").trim().replace(" ", "_").toLowerCase());
+=======
+					IBiomeConfig config = biomeConfigsByName.get(biomeEntry);
+					if(config != null)
+					{
+						groupBiomes.put(biomeEntry, config);	
+>>>>>>> parent of e8d872d1d (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 					}
 				}
 			}
@@ -1356,7 +1097,7 @@ public class ForgePresetLoader extends LocalPresetLoader
 			data.groupRegistry.put(bg.id, bg);
 		}
 	}
-
+	
 	@Override
 	protected void mergeVanillaBiomeMobSpawnSettings(BiomeConfigStub biomeConfigStub, String biomeResourceLocation)
 	{		
@@ -1406,5 +1147,5 @@ public class ForgePresetLoader extends LocalPresetLoader
 			}
 		}
 		return result;
-	}
+	}	
 }

@@ -520,11 +520,6 @@ public class WorldConfig extends WorldConfigBase
 			"GroupName - must be unique, choose something descriptive.",
 			"Size - from 0 to GenerationDepth. Lower number = larger. All biomes in the group must be smaller (higher BiomeSize number) or equal to this value.",
 			"Rarity - relative spawn chance.",
-			"BiomeName - Name of a corresponding biome config. Case sensitive. Can also be a registry name (minecraft:plains), if there is a associated TemplateBiome().",
-			"If the biome config is a template biome, all associated non-otg biomes are added to the group.",
-			"Tags/Categories - Instead of BiomeName, Forge Biome Dictionary id's and/or MC Biome Categories. ",
-			"OTG fetches all non-OTG biomes that match the specified category/tags and adds them to the biome group.",
-			"A TemplateBiome() that targets the biome must exist, or it is ignored.",
 			"Example: BiomeGroup(NormalBiomes, 1, 100, category.plains tag.overworld, tag.hot tag.dry)",
 			"Adds 2 entries; all plains biomes in the overworld, all hot+dry biomes. Biomes are never added twice.",
 			"- Use space as an AND operator, in the above example \"category.plains tag.overworld\" matches biomes with category plains AND tag overworld.",
@@ -887,54 +882,6 @@ public class WorldConfig extends WorldConfigBase
 		writer.putSetting(WorldStandardValues.RAVINE_MAX_LENGTH, this.ravineMaxLength);
 		writer.putSetting(WorldStandardValues.RAVINE_DEPTH, this.ravineDepth);
 
-<<<<<<< HEAD
-		writer.header1("Spawn point settings");
-
-		writer.putSetting(WorldStandardValues.FIXED_SPAWN_POINT, this.fixedSpawnPoint,
-			"Set this to true to enable SpawnPointX/SpawnPointY/SpawnPointZ/SpawnPointAngle."
-		);
-		writer.putSetting(WorldStandardValues.SPAWN_POINT_X, this.spawnPointX,
-			"When FixedSpawnPoint: true, this sets the world's spawn point."
-		);
-		writer.putSetting(WorldStandardValues.SPAWN_POINT_Y, this.spawnPointY,
-			"When FixedSpawnPoint: true, this sets the world's spawn point."		
-		);
-		writer.putSetting(WorldStandardValues.SPAWN_POINT_Z, this.spawnPointZ,
-			"When FixedSpawnPoint: true, this sets the world's spawn point."				
-		);
-		writer.putSetting(WorldStandardValues.SPAWN_POINT_ANGLE, this.spawnPointAngle,
-			"When FixedSpawnPoint: true, this sets the angle the player is looking when spawned at the spawn point."
-		);
-		
-		writer.header2("Portal settings (Forge)");
-
-		writer.putSetting(WorldStandardValues.PORTAL_BLOCKS, this.portalBlocks,
-			"A list of one or more portal blocks used to build a portal to this dimension, or back to the overworld.",
-			"Only applies for dimensions, not overworld/nether/end."
-		);
-		writer.putSetting(WorldStandardValues.PORTAL_COLOR, this.portalColor,
-			"The portal color used for this world's portals, only applies for dimensions, not overworld/nether/end.",
-			"Options: beige, black, blue, crystalblue, darkblue, darkgreen, darkred, emerald, flame, gold,",
-			"green, grey, lightblue, lightgreen, orange, pink, red, white, yellow, default."
-		);
-		writer.putSetting(WorldStandardValues.PORTAL_MOB, this.portalMob,
-			"The mob that spawns from this portal, minecraft:zombified_piglin by default.",
-			"Only applies for dimensions, not overworld/nether/end."
-		);
-		writer.putSetting(WorldStandardValues.PORTAL_IGNITION_SOURCE, this.portalIgnitionSource,
-			"The ignition source for this portal, minecraft:flint_and_steel by default.",
-			"Only applies for dimensions, not overworld/nether/end."
-		);
-		
-		writer.header1("Dimension settings (Forge)",
-			"Note: At world creation, these settings are written to the world save's datapack folder (\\saves\\WorldName\\datapacks\\otg\\)",
-			"as dimension_type json file. The json file is used by MC on world load to fetch the settings. If you want to change dimension",
-			"settings for already created worlds make sure to edit the dimension_type json file, since changes to the WorldConfig dimension", 
-			"settings won't be picked up on world load, only on world creation."
-		);
-=======
-		writer.header1("Dimension settings (Forge)");
->>>>>>> parent of 6ef79ba5a (Merge remote-tracking branch 'origin/1.16.4' into 1.16.4)
 
 		writer.putSetting(WorldStandardValues.FIXED_TIME, !this.fixedTime.isPresent() ? WorldStandardValues.FIXED_TIME.getDefaultValue() : this.fixedTime.getAsLong(),
 			"The time this dimension is fixed at, from 0 to 24000.",
