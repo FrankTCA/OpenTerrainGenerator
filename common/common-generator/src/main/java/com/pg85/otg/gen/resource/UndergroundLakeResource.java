@@ -102,10 +102,10 @@ public class UndergroundLakeResource extends FrequencyResourceBase
 						if (materialBelow != null && materialBelow.isAir())
 						{
 							// Air block, also set position above to air
-							worldGenRegion.setBlock(xLake, yLake, zLake, LocalMaterials.AIR);
+							worldGenRegion.setBlock(xLake, yLake, zLake, materialBelow);
 						} else {
 							// Not air, set position above to water
-							worldGenRegion.setBlock(xLake, yLake, zLake, LocalMaterials.WATER);
+							worldGenRegion.setBlock(xLake, yLake, zLake, material);
 						}
 					}
 				}
