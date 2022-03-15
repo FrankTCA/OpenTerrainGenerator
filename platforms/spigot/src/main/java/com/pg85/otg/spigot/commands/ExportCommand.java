@@ -76,7 +76,6 @@ public class ExportCommand extends BaseCommand
 			str = strings.get("4");
 			return StringUtil.copyPartialMatches(str == null ? "" : str, objectTypes, new ArrayList<>());
 		}
-		else if (strings.size() == 5)
 		{
 			str = strings.get("5");
 			if (str == null)

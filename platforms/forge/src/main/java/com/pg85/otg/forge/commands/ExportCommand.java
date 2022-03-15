@@ -159,8 +159,13 @@ public class ExportCommand extends BaseCommand
 				return 0;
 			}
 
+<<<<<<< HEAD
 			RegionCommand.Region region = RegionCommand.playerSelectionMap.get(source.getEntity());
 			if (region == null || region.getMin() == null || region.getMax() == null)
+=======
+			Region region = playerSelectionMap.get(source.getEntity());
+			if (region == null || region.getMin() == null)
+>>>>>>> parent of b3a1a9069 (Merge pull request #784 from FrankTCA/1.16.4)
 			{
 				source.sendSuccess(new StringTextComponent("Please mark two corners with /otg region mark"), false);
 				return 0;
@@ -334,4 +339,118 @@ public class ExportCommand extends BaseCommand
 			return ISuggestionProvider.suggest(list.stream(), builder);
 		}
 	}
+<<<<<<< HEAD
+=======
+
+	public static class Region
+	{
+		private BlockPos pos1 = null;
+		private BlockPos pos2 = null;
+		private Corner center = null;
+		private boolean flip = true;
+
+		public void setPos(BlockPos blockPos)
+		{
+			// alternate between setting min and max
+			// Flip initializes as true, meaning we set min first
+			if (flip)
+				pos1 = blockPos;
+			else
+				pos2 = blockPos;
+			flip = !flip;
+		}
+
+		public static Corner cornerFromBlockPos(BlockPos blockPos)
+		{
+			return new Corner(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+		}
+
+		public void clear()
+		{
+			pos1 = null;
+			pos2 = null;
+			center = null;
+		}
+
+		public Corner getMin()
+		{
+			return new Corner(
+				Math.min(pos1.getX(), pos2.getX()),
+				Math.min(pos1.getY(), pos2.getY()),
+				Math.min(pos1.getZ(), pos2.getZ())
+				);
+		}
+
+		public Corner getMax()
+		{
+			return new Corner(
+				Math.max(pos1.getX(), pos2.getX()),
+				Math.max(pos1.getY(), pos2.getY()),
+				Math.max(pos1.getZ(), pos2.getZ())
+			);
+		}
+
+		public void setPos1(BlockPos pos)
+		{
+			flip = false;
+			this.pos1 = pos;
+		}
+
+		public void setPos2(BlockPos pos)
+		{
+			flip = true;
+			this.pos2 = pos;
+		}
+
+		public Corner getCenter()
+		{
+			return center;
+		}
+
+		public void setCenter(Corner center)
+		{
+			this.center = center;
+		}
+	}
+	
+	private static class DirectionArgument implements ArgumentType<String>
+	{
+		private final String[] options;
+
+		public DirectionArgument(boolean vertical)
+		{
+			if (vertical) options = new String[]{"north", "south", "east", "west", "up", "down"};
+			else options = new String[]{"north", "south", "east", "west"};
+		}
+
+		@Override
+		public String parse(StringReader reader) throws CommandSyntaxException
+		{
+			return reader.readString();
+		}
+
+		@Override
+		public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
+		{
+			return ISuggestionProvider.suggest(options, builder);
+		}
+	}
+
+	private static class RegionMarkerArgument implements ArgumentType<String>
+	{
+		private final String[] options = new String[] {"1", "2", "center"};
+
+		@Override
+		public String parse(StringReader reader) throws CommandSyntaxException
+		{
+			return reader.readString();
+		}
+
+		@Override
+		public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
+		{
+			return ISuggestionProvider.suggest(options, builder);
+		}
+	}
+>>>>>>> parent of b3a1a9069 (Merge pull request #784 from FrankTCA/1.16.4)
 }
