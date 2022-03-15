@@ -111,7 +111,6 @@ class ForgeLegacyMaterials
 			case "stationary_lava":
 				return Blocks.LAVA.defaultBlockState();
 			case "stained_clay":
-				return Blocks.WHITE_TERRACOTTA.defaultBlockState();
 			case "hard_clay":
 				return Blocks.TERRACOTTA.defaultBlockState();
 			case "step":
