@@ -307,7 +307,7 @@ public class SpigotMaterials extends LocalMaterials
 		SEA_PICKLE = SpigotMaterialData.ofBlockData(Blocks.SEA_PICKLE.getBlockData());
 
 		// Ores
-		COAL_ORE = SpigotMaterialData.ofBlockData(Blocks.COAL_ORE.getBlockData());
+		COAL_ORE = SpigotMaterialData.ofBlockData(Blocks.PODZOL.getBlockData());
 		DIAMOND_ORE = SpigotMaterialData.ofBlockData(Blocks.DIAMOND_ORE.getBlockData());
 		EMERALD_ORE = SpigotMaterialData.ofBlockData(Blocks.EMERALD_ORE.getBlockData());
 		GOLD_ORE = SpigotMaterialData.ofBlockData(Blocks.GOLD_ORE.getBlockData());
