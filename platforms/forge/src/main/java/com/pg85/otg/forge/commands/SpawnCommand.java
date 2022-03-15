@@ -58,7 +58,7 @@ public class SpawnCommand extends BaseCommand
 	{
 		builder.then(Commands.literal("spawn")
 			.then(
-				Commands.argument("preset", StringArgumentType.string())
+				Commands.argument("preset", StringArgumentType.word())
 				.suggests((context, suggestionBuilder) -> PresetArgument.suggest(context, suggestionBuilder, true)).then(
 					Commands.argument("object", StringArgumentType.word()).executes(
 						context -> SpawnCommand.execute(

@@ -66,7 +66,7 @@ public class ExportCommand extends BaseCommand
 			Commands.literal("export").executes(this::execute).then(
 				Commands.argument("name", StringArgumentType.string()).executes(this::execute).then(
 					// Skip center block
-					Commands.argument("preset", StringArgumentType.string()).executes(this::execute)
+					Commands.argument("preset", StringArgumentType.word()).executes(this::execute)
 					.suggests((context, suggestionBuilder) -> PresetArgument.suggest(context, suggestionBuilder, true)).then(
 						Commands.argument("type", StringArgumentType.word()).executes(this::execute)
 						.suggests((context, suggestionBuilder) -> suggestTypes(context, suggestionBuilder, false)).then(
@@ -77,7 +77,7 @@ public class ExportCommand extends BaseCommand
 					)
 				).then(
 					Commands.argument("center", BlockStateArgument.block()).executes(this::execute).then(
-						Commands.argument("preset", StringArgumentType.string()).executes(this::execute)
+						Commands.argument("preset", StringArgumentType.word()).executes(this::execute)
 						.suggests((context, suggestionBuilder) -> PresetArgument.suggest(context, suggestionBuilder, true)).then(
 							Commands.argument("type", StringArgumentType.word()).executes(this::execute)
 							.suggests((context, suggestionBuilder) -> suggestTypes(context, suggestionBuilder, false)).then(
